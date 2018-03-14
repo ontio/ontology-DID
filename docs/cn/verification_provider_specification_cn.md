@@ -1,4 +1,4 @@
-[英文版](../en/verification_provider_specfication.md)
+[英文版](../en/verification_provider_specification.md)
 
 
 <h1 align="center">验证服务提供商接入标准 </h1>
