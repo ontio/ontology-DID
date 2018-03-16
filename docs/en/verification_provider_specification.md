@@ -1,12 +1,12 @@
 [中文版](../cn/verification_provider_specification_cn.md)
 
 
-<h1 align="center">验证服务提供商接入标准 </h1>
+<h1 align="center">认证服务合作方接入标准 </h1>
 <h3 align="center">版本 V0.6.0 </h3>
 
 ## 概述
 
-验证服务Verification Provider是指在本体生态上提供认证服务的合作方，其可能是政府机关、大学、银行、第三方认证服务机构（比如CA机构）、生物识别科技公司等等，这些企业为本体ONT ID的持有者（Owner）提供多维度的认证，并第一时间通过Ontology BlockChain来记录认证行为和认证结果HASH，从而为用户认证需求方/场景方提供了标准化、可信的认证方式。
+该角色是指在本体生态上提供认证服务的合作方，其可能是政府机关、大学、银行、第三方认证服务机构（比如CA机构）、生物识别科技公司等等，这些企业为本体ONT ID的持有者（Owner）提供多维度的认证，并第一时间通过Ontology BlockChain来记录认证行为和认证结果HASH，从而为用户认证需求方/场景方提供了标准化、可信的认证方式。
 
 ## 交互流程说明
 
