@@ -115,11 +115,11 @@ var claim = SDK.signClaim(context, claimData, issuer, subject, privateKey)
 }
 ````
 
-**issuer** 是声明的签发者的ONT ID。
+**issuer** 是声明的签发者（这里是MIT大学）的ONT ID。
 
-**subject** 是声明接收者的ONT ID。在这里表示将该声明绑定到Alice的ONT ID上。
+**subject** 是声明接收者（这里是Alice）的ONT ID。表示将该声明绑定到Alice的ONT ID上。
 
-**privateKey** 声明签发者的私钥。
+**privateKey** 声明签发者的私钥。用来对声明做签名。
 
 该方法返回的声明对象，内容类似于：
 
