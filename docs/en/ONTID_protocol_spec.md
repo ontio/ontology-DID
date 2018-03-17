@@ -144,5 +144,58 @@ Ont IdContract中包含三种事件消息，分别是
 
 其中，"did:ont:"是8个字节的数据，idString是25字节，因而ontId是一个33字节的数据。
 
+### 2.4 DDO规范
+通常，ONT ID对应的身份描述对象包含如下信息：
+- 公钥列表`PublicKeys`：用户用于身份认证的公钥信息，包括公钥id、公钥类型、公钥数据；
+- 属性对象`Attributes`：所有的属性构成一个JSON对象；
+- 恢复人地址`Recovery`：恢复人可帮助重置用户公钥列表。
+
+举个例子
+```json
+{
+	"OntId": "did:ont:xxxxxxxx",
+	"PublicKeys": [
+		{
+			"PubKeyId": "did:ont:xxxxxxxx#keys-1",
+			"Type": "ECDSA",
+			"Curve": "nistp256",
+			"Value": "02yyyyyyyy"
+		}, 
+		{
+			"PubKeyId": "did:ont:xxxxxxxx#keys-2",
+			"Type": "SM2",
+			"Curve": "sm2p256",
+			"Value": "02zzzzzzzz"
+		}
+	],
+	"Attributes": {
+		"SocialCredential": {
+			"service": "weibo",
+			"username": "alice",
+			"proof": "https://weibo.com/status/ttttttt"
+		},
+		"OfficialCredential": {
+			"service": "eID",
+			"eId": "dddddddd",
+			"proof": "03xz4f....."
+		}
+	},
+	"Recovery": "AKDVzYGLczmykdtRaejgvWeZrvdkVEvQ1X"
+}
+```
+由于智能合约的持久化存储只能使用Key-Value型存储，所以我们在IdContract实现中采用所谓的“_[materialized path](https://communities.bmc.com/communities/docs/DOC-9902)_”方法来存储`Attributes`这个JSON对象。简单来说，就是将上述JSON对象转换成一个数组。
+```json
+[
+	{"SocialCredential.service": "weibo"},
+	{"SocialCredential.username": "alice"},
+	...
+	{"OfficialCredential.proof": "03xz4f...."}
+]
+```
+关于这方面的更多实现细节，详见[Storing directory hierarchy in a key value data store](https://stackoverflow.com/questions/1619058/storing-directory-hierarchy-in-a-key-value-data-store)。
+
+
+
+
 
 
