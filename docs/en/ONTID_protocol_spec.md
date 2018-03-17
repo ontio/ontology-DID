@@ -177,20 +177,25 @@ byte[] GetPublicKeys(byte[] ontId);
 返回用户的所有公钥。
 
 #### g. 事件推送
-Ont IdContract中包含三种事件消息，分别是
+
+IdContract中包含三种事件消息，分别是
 - `Register`:  会推送与身份登记有关的信息。
+
 	| Field | Type | Description |
 	| :--- | :--- | :--- |
 	|op| string | 消息类型 |
 	| ontId | byte[] | 注册的Ont Id |
 
 - `PublicKey`: 会推送与公钥操作有关的消息。
+
 	| Field | Type | Description |
 	| :--- | :--- | :--- |
 	|op| string | 消息类型："add"或"remove" |
 	| ontId | byte[] | 用户的Ont Id |
 	| publicKey | byte[] | 公钥数据 |
+
 - `Attribute`: 会推送与属性操作有关的消息。
+
 	| Field | Type | Description |
 	| :--- | :--- | :--- |
 	|op| string | 消息类型："add"、"update"、"remove"  |
