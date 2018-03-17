@@ -1,6 +1,15 @@
-## 快速入手
+[中文版](../cn/get_started_cn.md)
 
-### 1. 浏览器环境
+
+<h1 align="center">ONT ID 应用快速开发指南 </h1>
+<h4 align="center">版本 V0.6.0 </h4>
+
+
+我们支持使用多种SDK或RPC方式来应用ONT ID ，我们以JS SDK为例，说明如何进行快速开发。本文档中以下的示例代码都以Node环境为例。
+
+## 环境准备
+
+### 1.1 浏览器环境
 
 将构建后的单个js文件 **browser.js** 放到你的html文件中，然后就可以直接使用SDK暴露出的全局变量**Ont**。
 
@@ -17,7 +26,7 @@
 </body>
 ````
 
-### 2. Node环境
+### 1.2 Node环境
 
 通过npm下载sdk，然后通过模块引入的方式使用SDK。
 
@@ -30,7 +39,7 @@ var Ont = require('Ont')
 
 ## 创建ONT ID
 
-### 1 生成ONT ID
+### 2.1 生成ONT ID
 
 描述ONT ID 是什么，有什么用。 描述生成一个随机生成的ONT ID的过程。
 
@@ -41,11 +50,10 @@ var nonce = core.generateRandomHex(32)
 var ontid = core.generateOntid(nonce)
 ````
 
-关于ONT ID 的规范参见[ONT身份的智能合约实现方案中2.1ONT身份标识生成算法](http://doc.ont.network:9001/chapter2/OntId%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6.html)
+关于ONT ID 的规范参见[ONT ID生成规范](./ONTID_protocol_spec.md/#1.1_ONT_ID生成)
 
-本文档中以下的示例代码都以Node环境为例。
 
-### 2 登记ONT ID
+### 2.2 将ONT ID登记到链上
 
 ONT ID创建完成后，用户还需要将ONT ID 发送到区块链上，使之真正地成为去中心化的身份标识。
 
@@ -81,19 +89,24 @@ const callback = function(res, socket) {
 txSender.sendTxWithSocket( param, callback )
 ````
 
-当我们定义的回调函数里处理得到上链成功的推送消息时，ONT ID创建过程才真正完成。接下来就可以通过ONT ID来管理用户的各项身份声明认证了。
+当我们定义的回调函数里处理得到上链成功的推送消息时，ONT ID创建过程才真正完成。接下来就可以通过ONT ID来管理用户的各项可信声明了。
 
-关于链上推送返回的具体信息，可以参见[ONT ID智能合约的设计与调用相关文档](http://42.159.224.87:8080/browse/ONTID-3?nsukey=uvv4OCzAVcvMGUodSthJA9t4EYUSkIQqgnTj9a8jAAfysOAMX%2Bu1yjYeth2KKNim4MxIpSN07vXLBhZy8V7SHy6vVSx4J%2BOA1LeFqATn9QvBRyqx%2F53iqcWwzCYOmaGtSvyFexy9YNeZJ42u8oc5mqGX7ehJpQPH5Y76CD1wP68raYBDJjdmCX8nOYD2xIlVI3FcDp4hoh7GXpgh7aQqcA%3D%3D)。
+关于链上推送返回的具体信息，可以参见[ONT ID智能合约的设计与调用相关文档](./ONTID_protocol_spec.md/#g._事件推送)。
 
-## 获取身份声明
+## 签发可信声明
 
 用户可能会有多种不同的身份。比如拥有公安部颁发的身份证的用户，都拥有中国公民这种身份，用户可以在生活中的某些场景中，出示自己的身份证，来声明自己的这种身份；身份证就是公安部对我们公民身份的认证。
 
-再比如某所大学毕业的学生，可以获得该大学的毕业生的身份。这个身份可以通过学校给学生颁发的毕业证来证明。现在，还有一种新的方式来认证这种某大学毕业生的身份。这就是通过区块链技术，将某种身份声明同用户的ONT ID绑定起来。同样地，用户可以向多个不同的机构或平台获取不同的身份声明。关于认证服务提供商相关的文档，请参见[验证服务提供商Verification Provider接入标准](https://github.com/ONTIO-Community/ONT-ID/blob/master/docs/verification_provider_specification.md)。
+再比如某所大学毕业的学生，可以获得该大学的毕业生的身份。这个身份可以通过学校给学生颁发的毕业证来证明。现在，还有一种新的方式来认证这种某大学毕业生的身份。这就是通过区块链技术，将某种可信声明同用户的ONT ID绑定起来。同样地，用户可以向多个不同的机构或平台获取不同的可信声明。
 
-我们以MIT大学颁发数字毕业证书来举例说明如何获取第三方授予用户的的身份声明。
+> 任何一个ONT ID的所有者（Owner）均可以向自己或他人签发可信声明。 
 
-假设Alice是MIT的学生，向学校申请毕业证的数字证明。学校验证确认了Alice的身份后，通过调用SDK的api生成一份可信声明，该声明包含Alice的毕业信息，和用学校的私钥对声明做的签名。
+> 政府机关、大学、银行、第三方认证服务机构（比如CA机构）、生物识别科技公司等等可作为现实信任机构，可以作为特定的合作方，加入到在本体生态中。
+如果你可能成为认证服务合作方，请参见[认证服务合作方接入标准](./verification_provider_specification.md)。
+
+我们以中国复旦大学颁发数字毕业证书来举例，说明如何获取第三方授予用户的的身份声明。
+
+假设Alice是复旦大学的学生，向学校申请毕业证的数字证明。学校验证确认了Alice的身份后，通过调用SDK的api生成一份可信声明，该声明包含Alice的毕业信息，和用学校的私钥对声明做的签名。
 
 ````
 var claim = SDK.signClaim(context, claimData, issuer, subject, privateKey)
@@ -113,7 +126,7 @@ var claim = SDK.signClaim(context, claimData, issuer, subject, privateKey)
 }
 ````
 
-**issuer** 是声明的签发者（这里是MIT大学）的ONT ID。
+**issuer** 是声明的签发者（这里是复旦大学）的ONT ID。
 
 **subject** 是声明接收者（这里是Alice）的ONT ID。表示将该声明绑定到Alice的ONT ID上。
 
@@ -191,4 +204,4 @@ txSender.sendTxWithSocket(param, callback)
 }
 ````
 
-## 使用身份声明
+## 验证可信声明
