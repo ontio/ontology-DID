@@ -1,13 +1,32 @@
-﻿# ONT 身份协议及实现
+﻿[中文版](./ONTID_protocal_spec_cn.md)
+
+<h1 align="center">ONT ID 身份标识协议及智能合约实现说明 </h1>
+<h4 align="center">版本 V0.6.0 </h4>
+
 
 实体是指现实世界中的个人、组织（组织机构、企事业单位等）、物品（手机、汽车、IOT设备等）、内容（文章、版权等），而身份是指实体在网络上的对应标识。本体使用本体⾝份标识（ONT ID）来标识和管理实体的网络身份。在本体上，⼀个实体可以对应到多个身份标识，且多个身份标识之间没有任何关联。
 
 ONT ID是⼀个去中心化的身份标识协议，ONT ID具有去中心化、自主管理、隐私保护、安全易用等特点。每⼀个ONT ID都会对应到⼀个ONT ID描述对象（ONT DDO）。
 
-## 1. ONT ID协议
+> ONT ID协议已被本体区块链智能合约完整实现，作为协议层，和区块链是解耦设计，并不仅限于本体区块链，同样可以基于其他区块链。
+
+## ONT ID协议
 
 ###  1.1 ONT ID生成
+
 ONT ID是一种URI，由每个实体自己生成成。其生成算法需要保证了两个ONT，同时在向本体注册时，共识节点会检查该ID是否已被注册。
+
+ONT ID 生成算法：
+
+为了防止用户错误输入Ont ID，我们定义一个合法的Ont ID必须包含4个字节的校验数据。我们详细描述一下如何生成一个合法的Ont ID。
+ 1. 生成32字节临时随机数nonce，计算h = Hash160(nonce），data = VER || h；
+ 2. 计算出data的一个4字节校验，即checksum = SHA256(SHA256(data))[0:3]；
+ 3. 令idString = data || checksum；
+ 4. 将"did:ont:"与data级联，即 ontId = "did:ont:" || idString；
+ 5. 输出ontId。
+
+其中，"did:ont:"是8个字节的数据，idString是25字节，因而ontId是一个33字节的数据。
+
 
 ### 1.2 自主管理
 本体利用数字签名技术保障实体对自己身份标识的管理权。ONT ID在注册时即与实体的公钥绑定，从而表明其所有权。对ONT ID的使用及其属性的修改需要提供所有者的数字签名。实体可以自主决定ONT ID的使用范围，设置ONT ID绑定的公钥，以及管理ONT ID的属性。
@@ -18,7 +37,51 @@ ONT ID是一种URI，由每个实体自己生成成。其生成算法需要保�
 ### 1.4 身份丢失恢复
 ONT ID的所有者可以设置恢复人代替本人行使对ONT ID的管理权，如修改ONT ID对应的属性信息，在密钥丢失时替换密钥。恢复人可以实现多种访问控制逻辑，如“与”、“或”、“(m, n)-门限”。
 
-## 2. IdContract
+### 1.5 身份描述对象DDO规范
+
+ONT ID对应的身份描述对象DDO存储在本体区块链，由DDO的控制人写入到区块链，并向所有用户开放读取。
+
+DDO规范包含如下信息：
+- 公钥列表`PublicKeys`：用户用于身份认证的公钥信息，包括公钥id、公钥类型、公钥数据；
+- 属性对象`Attributes`：所有的属性构成一个JSON对象；
+- 恢复人地址`Recovery`：恢复人可帮助重置用户公钥列表。
+
+举个例子
+```json
+{
+	"OntId": "did:ont:xxxxxxxx",
+	"PublicKeys": [
+		{
+			"PubKeyId": "did:ont:xxxxxxxx#keys-1",
+			"Type": "ECDSA",
+			"Curve": "nistp256",
+			"Value": "02yyyyyyyy"
+		}, 
+		{
+			"PubKeyId": "did:ont:xxxxxxxx#keys-2",
+			"Type": "SM2",
+			"Curve": "sm2p256",
+			"Value": "02zzzzzzzz"
+		}
+	],
+	"Attributes": {
+		"SocialCredential": {
+			"service": "weibo",
+			"username": "alice",
+			"proof": "https://weibo.com/status/ttttttt"
+		},
+		"OfficialCredential": {
+			"service": "eID",
+			"eId": "dddddddd",
+			"proof": "03xz4f....."
+		}
+	},
+	"Recovery": "AKDVzYGLczmykdtRaejgvWeZrvdkVEvQ1X"
+}
+```
+
+## 智能合约实现说明
+
 IdContract是在Ontology区块链平台上ONT ID协议的智能合约实现。借助ONT IdContract合约，用户可以管理自己的公钥列表、修改自己的个人资料、添加账户恢复人。
 
 ###  2.1 如何调用
@@ -134,65 +197,6 @@ Ont IdContract中包含三种事件消息，分别是
 	| ontId | byte[] | 用户的Ont Id |
 	| attrName | byte[] | 属性名 |
 	
-### 2.3 身份标识生成算法
-为了防止用户错误输入Ont ID，我们定义一个合法的Ont ID必须包含4个字节的校验数据。我们详细描述一下如何生成一个合法的Ont ID。
- 1. 生成32字节临时随机数nonce，计算h = Hash160(nonce），data = VER || h；
- 2. 计算出data的一个4字节校验，即checksum = SHA256(SHA256(data))[0:3]；
- 3. 令idString = data || checksum；
- 4. 将"did:ont:"与data级联，即 ontId = "did:ont:" || idString；
- 5. 输出ontId。
-
-其中，"did:ont:"是8个字节的数据，idString是25字节，因而ontId是一个33字节的数据。
-
-### 2.4 DDO规范
-通常，ONT ID对应的身份描述对象包含如下信息：
-- 公钥列表`PublicKeys`：用户用于身份认证的公钥信息，包括公钥id、公钥类型、公钥数据；
-- 属性对象`Attributes`：所有的属性构成一个JSON对象；
-- 恢复人地址`Recovery`：恢复人可帮助重置用户公钥列表。
-
-举个例子
-```json
-{
-	"OntId": "did:ont:xxxxxxxx",
-	"PublicKeys": [
-		{
-			"PubKeyId": "did:ont:xxxxxxxx#keys-1",
-			"Type": "ECDSA",
-			"Curve": "nistp256",
-			"Value": "02yyyyyyyy"
-		}, 
-		{
-			"PubKeyId": "did:ont:xxxxxxxx#keys-2",
-			"Type": "SM2",
-			"Curve": "sm2p256",
-			"Value": "02zzzzzzzz"
-		}
-	],
-	"Attributes": {
-		"SocialCredential": {
-			"service": "weibo",
-			"username": "alice",
-			"proof": "https://weibo.com/status/ttttttt"
-		},
-		"OfficialCredential": {
-			"service": "eID",
-			"eId": "dddddddd",
-			"proof": "03xz4f....."
-		}
-	},
-	"Recovery": "AKDVzYGLczmykdtRaejgvWeZrvdkVEvQ1X"
-}
-```
-由于智能合约的持久化存储只能使用Key-Value型存储，所以我们在IdContract实现中采用所谓的“_[materialized path](https://communities.bmc.com/communities/docs/DOC-9902)_”方法来存储`Attributes`这个JSON对象。简单来说，就是将上述JSON对象转换成一个数组。
-```json
-[
-	{"SocialCredential.service": "weibo"},
-	{"SocialCredential.username": "alice"},
-	...
-	{"OfficialCredential.proof": "03xz4f...."}
-]
-```
-关于这方面的更多实现细节，详见[Storing directory hierarchy in a key value data store](https://stackoverflow.com/questions/1619058/storing-directory-hierarchy-in-a-key-value-data-store)。
 
 
 
