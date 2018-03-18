@@ -41,9 +41,7 @@ var Ont = require('Ont')
 
 ### 2.1 生成ONT ID
 
-描述ONT ID 是什么，有什么用。 描述生成一个随机生成的ONT ID的过程。
-
-ONT ID是一个去中心化的身份标识，能够管理用户的各种数字身份认证。用户可以通关ONT SDK生成自己的ONT ID。它实际上是一个唯一的id。生成ONT ID的代码如下：
+ONT ID是一个去中心化的身份标识，能够管理用户的各种数字身份认证。用户可以通过ONT SDK生成自己的ONT ID。它实际上是一个唯一的id。生成ONT ID的代码如下：
 
 ````
 var nonce = core.generateRandomHex(32)
@@ -205,3 +203,25 @@ txSender.sendTxWithSocket(param, callback)
 ````
 
 ## 验证可信声明
+
+在上面一节我们举例说明了如何获取第三方授予的身份声明，用户在需要的时候可以出示这些声明。同时，这些声明可以通过SDK提供的方法来验证是否是真实的、未篡改的。
+
+我们以Alice同学求职的情况为例说明验证可信声明的过程。
+
+Alice向公司B求职时，提供了复旦大学授予的数字毕业证书，该证书是一份符合claim声明格式的JSON文件。公司B可以通过调用ONT SDK的方法来验证该声明。该方法的内部实现逻辑是首先通过声明中的**Issuer** 字段，获取声明签发者的DDO信息，从DDO信息中得到签发者的公钥，然后将声明对象中去掉签名后的内容，同公钥和签名值进行验签。验证通过，则表明声明是真实有效的。
+
+该方法的输入参数是claim声明的JSON字符串，返回结果是Promise。在Promise的回调方法中处理验证结果。
+
+````
+Core.verifyClaim(claim).then((result) => {
+    //result就是验证结果
+    if(result){
+        //验证通过
+    } else {
+        //验证不通过
+    }
+})
+````
+
+
+
