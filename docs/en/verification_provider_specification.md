@@ -44,9 +44,9 @@
 
 * **集成可信声明管理功能**
 
-    实现标准可信申明的签发和管理。支持功能包括：签发、吊销、验证、查询、发布可信声明模板。
+    实现标准可信声明的签发和管理。支持功能包括：签发、吊销、验证、查询、发布可信声明模板。
     
-    我们提供了快速集成这些功能的组件，请进入[这里](https://github.com/zzsZhou/claimware/blob/master/README.md)了解和使用申明管理组件CWC。
+    我们提供了快速集成这些功能的组件，请进入[这里](https://git.ont.io/OntologyNetwork/claimware/src/master/README.md)了解和使用申明管理组件CWC。
 
 * **定制化开发**
 
