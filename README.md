@@ -37,7 +37,7 @@ In the entire trust ecosystem, the following participating roles will be include
 
 A statement to confirm a claim made by one entity about another (including themselves). The claim is accompanied by a digital signature that can be used by other entities for authentication. The verifiable claim protocol describes in detail the procedures and specifications about issue, store, and verification of verifiable claim.
 
-[>> Learn more](http://git.ont.network/??)
+>> TODO Learn more
 
 ![](./images/20180316233010.png)
 
