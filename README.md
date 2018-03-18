@@ -1,43 +1,43 @@
 [中文版](./README_cn.md)
 
 
-<h1 align="center">ONT ID 身份标识协议及信任框架 </h1>
-<h4 align="center">版本 V0.6.0 </h4>
+<h1 align="center">ONT ID Identification Protocol and Trust Framework</h1>
+<h4 align="center">Version V0.6.0 </h4>
 
-## 概述
+## Introduction
 
-ONT ID是一个去中心化的身份标识协议，支持各类实体包括人、组织机构、物品及内容的分布式和多样化的确权、识别、认证等协同服务。ONT ID为每个主体建立基于密码学的数字身份，使得数据授权、确权自主化，使身份和数据真正变为用户可以掌控的资产。ONT ID具有去中心化、自主管理、隐私保护、安全易用等特点。
+ONT ID is a decentralized identification protocol that supports collaborative services such as distributed and diversified ownership confirmation, identification, and authentication of various entities including individuals, legal entities, objects, and contents. ONT ID establishes a cryptographically-based digital identity for each entity, allowing self-sovereign of data authorization and ownership confirmation, which makes the identity and data truly assets that the user can control. ONT ID has the characteristics of decentralization, self-management, privacy protection, security and ease of use.
 
-本体基于ONT ID及可验证声明协议建立去中心化的信任模型和分布式信任传递体系，同时引入C-L签名算法、西格玛协议等密码学技术来实现可验证声明的隐私保护。同时本体还将基于ONT ID纳入各种认证服务机构，建立对主体身份的多源认证，实现完整身份画像。
+Ontology establishes a decentralized trust model and distributed trust delivery system through ONT ID and verifiable claim, and uses the C-L signature algorithm and zero-knowledge proof protocol to assure privacy protection of verifiable claim. Through ONT ID, Ontology will also incorporate various authentication service agencies, and establish multi-source authentication of the entity’s identity to achieve complete identity portrait.
 
-去中心化的信任模型不仅仅依赖特定的中心实体构建信任关系，实体之间还能够自发、对等地产生信任关系。信任的传递由实体间的相互认证实现。一个实体被数量越多的实体认证，其可信度就越高；被可信度越高的实体认证的实体，亦将获得更高的可信度。
+In addition to relying on specific central entities to build trust relationships, entities can also build equally strong trust relationships by themselves. Trust transfer is achieved through mutual authentication between entities. Entities will have higher credibility if they receive more authentications from other entities – especially if those other entities have high credibility.
 
-## 工作原理
+## How it works
 
-在使用平台之前，您可以先大致了解整个去中心化信任机制的原理.
+Before using the platform, it is a good suggestion for you to first understand the principle of the decentralized trust mechanism.
 
-在整个信任生态中,会包括以下参与角色.
+In the entire trust ecosystem, the following participating roles will be included.
 
-* **用户Recipient** ONT ID的持有者,可以接受Verifier签发的可信声明,也可以为他人签发可信申明。 
+* **The Owners of the User's Recipient ONT ID** They can accept a verifiable claim issued by Verifier or issue a verifiable claim for others.
 
-* **申明发行方 Claim Issuer** 指在本体生态上提供认证服务的合作方，其可能是政府机关、大学、银行、第三方认证服务机构（比如CA机构）、生物识别科技公司等等，这些企业为本体ONT ID的持有者（Owner）提供多维度的认证，并第一时间通过Ontology BlockChain来记录认证行为和认证结果HASH，从而为用户认证需求方/场景方提供了标准化、可信的认证方式。
+* **Claim Issuer** “Claim Issuer” refers to the partner that provides authentication services on the Ontology ecosystem. It may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. They provide multi-dimensional authentication for the owner of the ONT ID and record the HASH of authentication behavior and authentication result through the Ontology blockchain at the first time, thereby providing a standardized and credible authentication method for the user authentication requester.
 
-* **申明验证方 Claim Verifier** 接受用户可信申明,并进行验证的场景,比如需要验证面试者的身份信息/学历/行业技能等雇主.
+* **Claim Verifier** Claim Verifier can accept the user's verifiable claim and verify the situation such as the employers who need to verify the interviewer's identity information/degree/industry skills.
 
-* **应用开发者 Developer** 基于ONT ID协议和接口为用户和各种场景提供各种应用开发服务。
+* **Application Developer** Developer provides various application development services for users and various scenarios based on the ONT ID protocol and API.
 
 
-### **身份标识协议**
+### **Identification Protocol**
 
-实体是指现实世界中的个人、组织（组织机构、企事业单位等）、物品（手机、汽车、IOT设备等）、内容（文章、版权等），而身份是指实体在网络上的对应标识。本体网络使用本体身份标识（ONT ID）来标识和管理实体在链上的数字身份。在本体区块链上，一个实体可以对应到多个身份标识，且多个身份标识之间没有任何关联。
+“Entity” refers to individuals, legal entities (organizations, enterprises, institutions, etc.), objects (mobile phones, automobiles, IoT devices, etc.), and contents (articles, copyrights, etc.) in the real world, and “identity” refers to the entity's identity within the network. Ontology uses Ontology Identifier (ONT ID) to identify and manage the entities' identities. On Ontology blockchain, one entity can correspond to multiple individual identities, and there is no relation between multiple identities.
 
-[>> 详细了解](./docs/en/ONTID_protocol_spec.md)
+[>> Learn more](./docs/en/ONTID_protocol_spec.md)
 
-### **可信申明协议**
+### **Verifiable Claim Protocol**
 
-可信申明(Verifiable Claim)是指，一个实体对另一个实体（包括自己）的某些属性作出的描述性声明，并附加自己的数字签名，用以证明这些属性的真实性，可被其他实体验证。可验证申明协议详细描述了声明的签发、存储、验证等流程及规范。
+A statement to confirm a claim made by one entity about another (including themselves). The claim is accompanied by a digital signature that can be used by other entities for authentication. The verifiable claim protocol describes in detail the procedures and specifications about issue, store, and verification of verifiable claim.
 
-[>> 详细了解](http://git.ont.network/??)
+[>> Learn more](http://git.ont.network/??)
 
 ![](./images/20180316233010.png)
 
@@ -45,19 +45,19 @@ ONT ID是一个去中心化的身份标识协议，支持各类实体包括人�
 
 
 
-## 开始使用
+## Getting Started
 
-ONT ID 身份标识协议及信任框架已经被完整地通过智能合约实现在本体区块链上，您只需要操作我们的各种SDK或者RPC接口，即可使用.
+ONT ID identification protocol and the trust framework have been completely implemented on the Ontology blockchain through smart contract. You only need to call our various SDKs or RPC interfaces to use.
 
-进入 [>>快速开发指南](./docs/en/get_started.md)开始了解.
+Enter [>>Quick Development Guide ](./docs/en/get_started.md)to Get Started.
 
-当然您也可以直接参考我们的各种SDK和RPC接口,包括以下:
+Of course, you can also refer directly to our various SDKs and RPC interfaces, including the following:
 
 * [>> JAVA SDK](https://git.ont.io/Ontology_Open_Platform/ont-sdk-java) 
 
 * [>> TS SDK](https://git.ont.io/OntologyNetwork/ont-sdk-ts)  
 
-如果您是认证服务合作方，请进入[>> 认证服务合作方接入标准](./docs/en/verification_provider_specification.md)了解详细情况。
+If you are an authentication service partner, please go to [>> Authentication Service Partner Access Standard](./docs/en/verification_provider_specification.md) for details.
 
 
 

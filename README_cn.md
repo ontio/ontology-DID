@@ -1,4 +1,4 @@
-[中文版](./README_cn.md)
+[English Version](./README.md)
 
 
 <h1 align="center">ONT ID 身份标识协议及信任框架 </h1>
@@ -26,19 +26,22 @@ ONT ID是一个去中心化的身份标识协议，支持各类实体包括人�
 
 * **应用开发者 Developer** 基于ONT ID协议和接口为用户和各种场景提供各种应用开发服务。
 
-如果需要更详细了解其机制原理,可以更进一步了解协议.
 
 ### **身份标识协议**
 
 实体是指现实世界中的个人、组织（组织机构、企事业单位等）、物品（手机、汽车、IOT设备等）、内容（文章、版权等），而身份是指实体在网络上的对应标识。本体网络使用本体身份标识（ONT ID）来标识和管理实体在链上的数字身份。在本体区块链上，一个实体可以对应到多个身份标识，且多个身份标识之间没有任何关联。
 
-[>> 了解更多](./docs/en/ONTID_protocol_spec.md)
+[>> 详细了解](./docs/en/ONTID_protocol_spec.md)
 
-### **可验证申明协议**
+### **可信申明协议**
 
-可验证申明是指，一个实体对另一个实体（包括自己）的某些属性作出的描述性声明，并附加自己的数字签名，用以证明这些属性的真实性，可被其他实体验证。可验证申明协议详细描述了声明的签发、存储、验证等流程及规范。
+可信申明(Verifiable Claim)是指，一个实体对另一个实体（包括自己）的某些属性作出的描述性声明，并附加自己的数字签名，用以证明这些属性的真实性，可被其他实体验证。可验证申明协议详细描述了声明的签发、存储、验证等流程及规范。
 
-[>> 了解更多](http://git.ont.network/??)
+[>> 详细了解](http://git.ont.network/??)
+
+![](./images/20180316233010.png)
+
+
 
 
 
@@ -46,16 +49,15 @@ ONT ID是一个去中心化的身份标识协议，支持各类实体包括人�
 
 ONT ID 身份标识协议及信任框架已经被完整地通过智能合约实现在本体区块链上，您只需要操作我们的各种SDK或者RPC接口，即可使用.
 
-进入 [>>开发指南](./docs/en/get_started.md)开始了解.
+进入 [>>快速开发指南](./docs/en/get_started.md)开始了解.
 
 当然您也可以直接参考我们的各种SDK和RPC接口,包括以下:
 
-* [>> JAVA SDK](ont-sdk-java.md) 
+* [>> JAVA SDK](https://git.ont.io/Ontology_Open_Platform/ont-sdk-java) 
 
-* [>> TS SDK](ont-sdk-ts.md)  
+* [>> TS SDK](https://git.ont.io/OntologyNetwork/ont-sdk-ts)  
 
-### 认证服务的合作方
-如果您是认证服务的合作方，请进入[>> 认证服务的合作方接入标准](./docs/en/verification_provider_specification.md)了解详细情况。
+如果您是认证服务合作方，请进入[>> 认证服务合作方接入标准](./docs/en/verification_provider_specification.md)了解详细情况。
 
 
 
