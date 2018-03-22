@@ -1,12 +1,12 @@
 [中文版](../cn/verification_provider_specification_cn.md)
 
 
-<h1 align="center">The Access Standard for Authentication Service Partners</h1>
+<h1 align="center">The Access Standard for Trust Anchor</h1>
 <h3 align="center">Version V0.6.0 </h3>
 
 ## Introduction
 
-This role refers to the partner that provides authentication services on the Ontology ecosystem. It may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. They provide multi-dimensional authentication for the owner of the ONT ID and record the HASH of authentication behavior and authentication result through the Ontology blockchain at the first time, thereby providing a standardized and credible authentication method for the user authentication requester.
+Trust Anchor refers to the partner that provides authentication services on the Ontology ecosystem. It may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. They provide multi-dimensional authentication for the owner of the ONT ID and record the HASH of authentication behavior and authentication result through the Ontology blockchain at the first time, thereby providing a standardized and credible authentication method for the user authentication requester.
 
 ## Interactive Process Description
 
@@ -20,18 +20,18 @@ According to demands, there are two specific interaction processes.
 
 
 * Offline Issuance Mode
-    This model means that the verification provider authenticates users through offline or other channels and issues a verifiable claim.
+    This model means that the Trust Anchor authenticates users through offline or other channels and issues a verifiable claim.
 
 ## Major Terms of Service
 
-* Verification provider is not allowed to store any user data without related qualifications or user permission.
-* Verification provider should announce on the official website that it is the provider of Ontology identification and verification service and specify the registered ONT ID.
-* Verification provider should guarantee the accuracy and authenticity of its user information. The Ontology team is not responsible for the authenticity of the user information submitted by the verification provider. The Ontology team does not take responsibilities for the invalidity of legal documents due to false or incomplete user information. The relevant responsibility should be taken by the verification provider itself to its users or third parties.
-* Verification provider should have the capability of identification and authentication management. The principle requirements are as follows. The target requirements can be specified by Party A according to the specific service requirements.
+* Trust Anchor is not allowed to store any user data without related qualifications or user permission.
+* Trust Anchor should announce on the official website that it is the provider of Ontology identification and verification service and specify the registered ONT ID.
+* Trust Anchor should guarantee the accuracy and authenticity of its user information. The Ontology team is not responsible for the authenticity of the user information submitted by the Trust Anchor. The Ontology team does not take responsibilities for the invalidity of legal documents due to false or incomplete user information. The relevant responsibility should be taken by the Trust Anchor itself to its users or third parties.
+* Trust Anchor should have the capability of identification and authentication management. The principle requirements are as follows. The target requirements can be specified by Party A according to the specific service requirements.
 * Have the hardware and the network facilities for identification and authentication;
 * Have safety protection standards;
 * Deploy the software of identification and authentication management provided by Ontology open source standard code;
-* Based on the management process of identification and authentication, the verification provider should provide at least the following services of verifiable claim: 1. the issuance of a verifiable claim; 2. the revocation of a verifiable claim; 3. Providing open services of verifiable claim in official domain URL.
+* Based on the management process of identification and authentication, the Trust Anchor should provide at least the following services of verifiable claim: 1. the issuance of a verifiable claim; 2. the revocation of a verifiable claim; 3. Providing open services of verifiable claim in official domain URL.
 
 
 ## Access Procedure
@@ -59,7 +59,7 @@ According to demands, there are two specific interaction processes.
 
     Step 3: Set templates of verifiable claim based on your business demand；
     
-   Step 4: Use the A3 interface through the CWC. As shown in above figure, the A3 interface will help the verification provider to issue and send it to the trusted storage and blockchain.
+   Step 4: Use the A3 interface through the CWC. As shown in above figure, the A3 interface will help the Trust Anchor to issue and send it to the trusted storage and blockchain.
 
     > Note：Please use official domain name URL to open the API of verifying verifiable claim to the public.
 

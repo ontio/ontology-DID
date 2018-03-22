@@ -18,9 +18,9 @@ Before using the platform, it is a good suggestion for you to first understand t
 
 In the entire trust ecosystem, the following participating roles will be included.
 
-* **The Owners of the User's Recipient ONT ID** They can accept a verifiable claim issued by Verifier or issue a verifiable claim for others.
+* **Recipient** The Owners of ONT ID,They can accept a verifiable claim issued by Verifier or issue a verifiable claim for others.
 
-* **Claim Issuer** “Claim Issuer” refers to the partner that provides authentication services on the Ontology ecosystem. It may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. They provide multi-dimensional authentication for the owner of the ONT ID and record the HASH of authentication behavior and authentication result through the Ontology blockchain at the first time, thereby providing a standardized and credible authentication method for the user authentication requester.
+* **Claim Issuer** “Claim Issuer” could be the Owners of ONT ID, include Trust Anchor(the partner that provides authentication services on the Ontology ecosystem),which may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. They provide multi-dimensional authentication for the owner of the ONT ID and record the HASH of authentication behavior and authentication result through the Ontology blockchain at the first time, thereby providing a standardized and credible authentication method for the user authentication requester.
 
 * **Claim Verifier** Claim Verifier can accept the user's verifiable claim and verify the situation such as the employers who need to verify the interviewer's identity information/degree/industry skills.
 
@@ -57,7 +57,7 @@ Of course, you can also refer directly to our various SDKs and RPC interfaces, i
 
 * [>> TS SDK](https://git.ont.io/OntologyNetwork/ont-sdk-ts)  
 
-If you are an authentication service partner, please go to [>> Authentication Service Partner Access Standard](./docs/en/verification_provider_specification.md) for details.
+If you are a trust anchor, please go to [>> The Access Standard for Trust Anchor](./docs/en/verification_provider_specification.md) for details.
 
 
 
