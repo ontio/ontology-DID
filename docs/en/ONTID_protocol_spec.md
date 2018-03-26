@@ -1,4 +1,4 @@
-[English Version](./ONTID_protocal_spec_cn.md)
+[中文版](../cn/ONTID_protocal_spec_cn.md)
 
 <h1 align="center">ONT ID Identification Protocol and Smart Contract Implementation Specification</h1>
 <h4 align="center">Version V0.6.0 </h4>
