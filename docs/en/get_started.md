@@ -11,7 +11,7 @@ We support the use of multiple SDKs or RPCs to apply ONT IDs. We use the JS SDK 
 
 ### 1.1 Browser environment
 
-Place a single built-in JS file **browser.js** into your HTML file, then you can directly use the SDK, and can use the SDK to directly expose the global variable**Ont**.
+Place a single built-in JS file **browser.js** into your HTML file, then you can directly use the SDK, and can use the SDK to directly expose the global variable **Ont**.
 
 ````
 <html>
