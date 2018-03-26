@@ -1,4 +1,4 @@
-﻿[English Version](./ONTID_protocol_spec.md)
+﻿[English Version](../en/ONTID_protocol_spec.md)
 
 <h1 align="center">ONT ID 身份标识协议及智能合约实现说明 </h1>
 <h4 align="center">版本 V0.6.0 </h4>
