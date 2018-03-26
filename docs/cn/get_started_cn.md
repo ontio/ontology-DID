@@ -37,23 +37,43 @@ npm install Ont-ts --save
 var Ont = require('Ont')
 ````
 
-## 创建ONT ID
+## 创建数字身份
 
-### 2.1 生成ONT ID
+### 2.1 创建身份
 
-ONT ID是一个去中心化的身份标识，能够管理用户的各种数字身份认证。用户可以通过ONT SDK生成自己的ONT ID。它实际上是一个唯一的id。生成ONT ID的代码如下：
+数字身份(Identity)是ONT SDK导出的一个核心类，该类包含代表身份的ONT ID属性。ONT ID是一个去中心化的身份标识，能够管理用户的各种数字身份认证。
 
-````
-var nonce = core.generateRandomHex(32)
-var ontid = core.generateOntid(nonce)
-````
+> 关于数字身份的具体信息请查阅[ONT TS SDk]() 中相关内容。
 
-关于ONT ID 的规范参见[ONT ID生成规范](./ONTID_protocol_spec.md/#1.1_ONT_ID生成)
+可以通过SDK来创建一个身份。创建身份的过程中会基于用户的私钥生成ONT ID。
 
+> 关于ONT ID 的规范参见[ONT ID生成规范](./ONTID_protocol_spec.md/#1.1_ONT_ID生成)
+
+创建身份需要提供的参数如下：
+
+**privateKey** 用户的私钥。可以通过SDK提供的方法安全地生成私钥。
+
+**password** 用来加密和解密私钥的密码。
+
+**algorithmObj** 用来生成身份的算法对象。该值是可选参数，结构如下：
+
+```
+{
+  algorithm: string // 算法名称
+  parameters: {}    // 算法参数
+}
+```
+
+```
+import {Identity} from 'Ont'
+var identity = new Identity()
+identity.create(privateKey, password)
+console.log(identity.ontid)
+```
 
 ### 2.2 将ONT ID登记到链上
 
-ONT ID创建完成后，用户还需要将ONT ID 发送到区块链上，使之真正地成为去中心化的身份标识。
+身份创建完成后，还需要将身份的ONT ID注册到链上，身份才算真正地创建完成。
 
 发送ONT ID上链是需要发送交易的过程。可以通过调用SDK提供的方法构造交易对象。
 
@@ -91,7 +111,7 @@ txSender.sendTxWithSocket( param, callback )
 
 关于链上推送返回的具体信息，可以参见[ONT ID智能合约的设计与调用相关文档](./ONTID_protocol_spec.md/#g._事件推送)。
 
-## 签发可信声明
+## 3. 签发可信声明
 
 用户可能会有多种不同的身份。比如拥有公安部颁发的身份证的用户，都拥有中国公民这种身份，用户可以在生活中的某些场景中，出示自己的身份证，来声明自己的这种身份；身份证就是公安部对我们公民身份的认证。
 
@@ -202,7 +222,7 @@ txSender.sendTxWithSocket(param, callback)
 }
 ````
 
-## 验证可信声明
+## 4. 验证可信声明
 
 在上面一节我们举例说明了如何获取第三方授予的身份声明，用户在需要的时候可以出示这些声明。同时，这些声明可以通过SDK提供的方法来验证是否是真实的、未篡改的。
 
