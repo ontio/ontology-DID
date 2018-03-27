@@ -41,13 +41,13 @@ According to demands, there are two specific interaction processes.
 
     You need to register your ONT ID first. We recommend you to register it through the official SDK.
 
-    [ont-java-sdk](ont-sdk-java.md) - SDK to create a digital identity.
+    [ont-java-sdk](https://github.com/ontio/ontology-java-sdk) - SDK to create a digital identity.
 
 * **Integrated Features of Verifiable Claim Management**
 
     To achieve the issuance and management of the standard verifiable claim. To support the functions including issuing, revoking, verifying, querying, and publishing the templates of verifiable claim.
     
-    We provide components to quickly integrate these features. Please enter[here](https://git.ont.io/OntologyNetwork/claimware/src/master/README.md)to learn the component of verifiable claim - CWC.
+    We provide components to quickly integrate these features.
 
 * **Customized Development**
 
@@ -55,7 +55,7 @@ According to demands, there are two specific interaction processes.
 
     Step 2: Use SDK to implement the A2 interface for verifying user identity of ONT ID;
 
-    [ont-java-sdk](ont-sdk-java.md) - SDK to validate user signature.
+    [ont-java-sdk](https://github.com/ontio/ontology-java-sdk) - SDK to validate user signature.
 
     Step 3: Set templates of verifiable claim based on your business demand；
     
