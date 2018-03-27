@@ -40,20 +40,20 @@
 
     需要首先注册ONT ID，我们建议通过官方SDK进行注册。
 
-    [ont-java-sdk](ont-sdk-java.md) - 使用创建数字身份接口.
+    [ont-java-sdk](https://github.com/ontio/ontology-java-sdk) - 使用创建数字身份接口.
 
 * **集成可信声明管理功能**
 
     实现标准可信申明的签发和管理。支持功能包括：签发、吊销、验证、查询、发布可信声明模板。
     
-    我们提供了快速集成这些功能的组件，请进入[这里](https://github.com/zzsZhou/claimware/blob/master/README.md)了解和使用申明管理组件CWC。
+    我们提供了快速集成这些功能的组件。
 
 * **定制化开发**
 
     Step1 结合现有身份验证方式，定制化A1，并开放给客户端；
 
     Step2 使用SDK实现A2接口，用于验证用户ONT ID身份；
-    [ont-java-sdk](ont-sdk-java.md) - 验证用户签名接口.
+    [ont-java-sdk](https://github.com/ontio/ontology-java-sdk) - 验证用户签名接口.
 
     Step3 需要根据您的业务情况，设定可信申明模板；
     
