@@ -11,7 +11,7 @@ We support the use of multiple SDKs or RPCs to apply ONT IDs. We use the JS SDK 
 
 ### 1.1 Browser environment
 
-Place a single built-in JS file **browser.js** into your HTML file, then you can directly use the SDK, and can use the SDK to directly expose the global variable **Ont**.
+Place a single built-in JS file **browser.js** into your HTML file, then you can directly use the SDK, and can use the global variable **Ont** exposed from the SDK directly .
 
 ````
 <html>
@@ -37,23 +37,43 @@ npm install Ont-ts --save
 var Ont = require('Ont')
 ````
 
-## Create ONT ID
+## Create Digital Identity
 
-### 2.1 Generate ONT ID
+### 2.1 Generate identity
 
-ONT ID is a decentralized identity that managed users’ various digital identity authentications. Users can generate their own ONT IDs through the ONT SDK. It is a unique ID. The code to generate an ONT ID is as follows:
+ONT ID is a decentralized identity that managed users’ various digital identity authentications.Identity is one of the core classes exposed from ONT SDK, which contains the ONT ID that represent the identity.
 
-````
-var nonce = core.generateRandomHex(32)
-var ontid = core.generateOntid(nonce)
-````
+> For more information about identity, see [ONT TS SDK]()
 
-For ONT ID specifications, see [ONT ID Generation Specifications](./ONTID_protocol_spec.md/#1.1_ONT_ID生成).
+You can use SDK to create a digital identity. During the process, SDK will generate a ONT ID base on user's private key.
 
+> For ONT ID specifications, see [ONT ID Generation Specifications](./ONTID_protocol_spec.md/#1.1_ONT_ID生成).
+
+The method needs parameters as follows:
+
+**privateKey** user's private key. Can use the SDK to generate the private key safely.
+
+**password** the password to encrypt and decrypt the private key.
+
+**algorithmObj** describes the algorithm used to generate identity, has following structure ：
+
+```
+{
+  algorithm: string // algorithm's name
+  parameters: {}    // algorithm's parameters
+}
+```
+
+```
+import {Identity} from 'Ont'
+var identity = new Identity()
+identity.create(privateKey, password)
+console.log(identity.ontid)
+```
 
 ### 2.2 Register ONT ID to the blockchain
 
-After the ONT ID is created the user needs to send the ONT ID to the blockchain to make it a truly decentralized identity.
+After the identity is created the user needs to send the ONT ID to the blockchain to make it a truly decentralized identity.
 
 Sending ONT IDs to the blockchain is the same process as sending transactions. The transaction object can be constructed by calling the methods provided by the SDK.
 
@@ -109,7 +129,7 @@ Suppose Alice is a student at Fudan University and applies to the school for a d
 var claim = SDK.signClaim(context, claimData, issuer, subject, privateKey)
 ````
 
-This is method is described as follows:
+This  method is described as follows:
 
 **context** marks a claim template.
 
