@@ -52,9 +52,9 @@ Enter [>>Quick Development Guide ](./docs/en/get_started.md)to Get Started.
 
 Of course, you can also refer directly to our various SDKs and RPC interfaces, including the following:
 
-* [>> JAVA SDK](https://git.ont.io/Ontology_Open_Platform/ont-sdk-java) 
+* [>> JAVA SDK](https://github.com/ontio/ontology-java-sdk) 
 
-* [>> TS SDK](https://git.ont.io/OntologyNetwork/ont-sdk-ts)  
+* [>> TS SDK](https://github.com/ontio/ontology-ts-sdk)  
 
 If you are a trust anchor, please go to [>> The Access Standard for Trust Anchor](./docs/en/verification_provider_specification.md) for details.
 
