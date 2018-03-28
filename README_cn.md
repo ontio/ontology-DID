@@ -52,9 +52,9 @@ ONT ID 身份标识协议及信任框架已经被完整地通过智能合约实�
 
 当然您也可以直接参考我们的各种SDK和RPC接口,包括以下:
 
-* [>> JAVA SDK](https://git.ont.io/Ontology_Open_Platform/ont-sdk-java) 
+* [>> JAVA SDK](https://github.com/ontio/ontology-java-sdk) 
 
-* [>> TS SDK](https://git.ont.io/OntologyNetwork/ont-sdk-ts)  
+* [>> TS SDK](https://github.com/ontio/ontology-ts-sdk)  
 
 如果您是信任锚，请进入[>> 本体信任锚接入标准](./docs/en/verification_provider_specification.md)了解详细情况。
 
