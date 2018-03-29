@@ -50,17 +50,17 @@ DDO规范包含如下信息：
 ```json
 {
 	"OntId": "did:ont:xxxxxxxx",
-	"PublicKeys": [
+	"Owners": [
 		{
 			"PubKeyId": "did:ont:xxxxxxxx#keys-1",
 			"Type": "ECDSA",
-			"Curve": "nistp256",
+			"Curve": "p256",
 			"Value": "02yyyyyyyy"
 		}, 
 		{
 			"PubKeyId": "did:ont:xxxxxxxx#keys-2",
 			"Type": "SM2",
-			"Curve": "sm2p256",
+			"Curve": "sm2p256v1",
 			"Value": "02zzzzzzzz"
 		}
 	],
@@ -76,7 +76,7 @@ DDO规范包含如下信息：
 			"proof": "03xz4f....."
 		}
 	},
-	"Recovery": "AKDVzYGLczmykdtRaejgvWeZrvdkVEvQ1X"
+	"Recovery": "TA63T1gxXPXWsBqHtBKcV4NhFBhw3rtkAF"
 }
 ```
 
