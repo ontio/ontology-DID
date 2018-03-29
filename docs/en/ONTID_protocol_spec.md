@@ -49,7 +49,7 @@ For example,
 ```json
 {
 	"OntId": "did:ont:xxxxxxxx",
-	"PublicKeys": [
+	"Owners": [
 		{
 			"PubKeyId": "did:ont:xxxxxxxx#keys-1",
 			"Type": "ECDSA",
@@ -75,7 +75,7 @@ For example,
 			"proof": "03xz4f....."
 		}
 	},
-	"Recovery": "AKDVzYGLczmykdtRaejgvWeZrvdkVEvQ1X"
+	"Recovery": "TA63T1gxXPXWsBqHtBKcV4NhFBhw3rtkAF"
 }
 ```
 
