@@ -41,12 +41,22 @@ A statement to confirm a claim made by one entity about another (including thems
 ![](./images/20180316233010.png)
 
 
+## Deploy
+
+> **NOTE:** ONT ID identification protocol and the trust framework have been completely implemented on the Ontology blockchain through smart contract. 
+At the same time, **ONT ID is an open protocol, and we also support the use of different underlying Blockchain technologies and different smart contract systems to realize it**. The following are deployed with the Ontology Blockchain and the NeoVM smart contract.
+
+* Step 1 Deploy Blockchain
+
+    [>> Ontology Blockchain Installation](https://github.com/ontio/ontology) 
+
+* Step 1 Deploy IDContract 
+    
+    [Here](./resources\smart-contract\NeoVM/IdContract.avm) to download .avm file ，and [>> smart contract tutorial](https://github.com/ontio/documentation/tree/master/smart-contract-tutorial)，deploy this .avm to Blockchain.
 
 
 
 ## Getting Started
-
-ONT ID identification protocol and the trust framework have been completely implemented on the Ontology blockchain through smart contract. You only need to call our various SDKs or RPC interfaces to use.
 
 Enter [>>Quick Development Guide ](./docs/en/get_started.md)to Get Started.
 
@@ -57,6 +67,15 @@ Of course, you can also refer directly to our various SDKs and RPC interfaces, i
 * [>> TS SDK](https://github.com/ontio/ontology-ts-sdk)  
 
 If you are a trust anchor, please go to [>> The Access Standard for Trust Anchor](./docs/en/verification_provider_specification.md) for details.
+
+
+## Trust Anchor
+
+Trust Anchor refers to the partner that provides authentication services on the Ontology ecosystem. It may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. You are welcome if your organization is interested in building a distributed trust network with us.
+
+[Here](https://info.ont.io/cooperation/en) to join us. 
+
+If you have been a trust anchor,please go to [>> The Access Standard for Trust Anchor](./docs/en/verification_provider_specification.md) for details.
 
 
 
