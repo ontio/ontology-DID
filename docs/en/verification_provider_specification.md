@@ -16,7 +16,7 @@ According to demands, there are two specific interaction processes.
 
     This mode means that users can initiate the real-time authentication through the client (such as Ontology official ONTO client), and immediately obtain the verifiable claim after the authentication passes. For example, Face++ follows this process.
 
-![](../../images/5a92d69de4b0874437cfe5f3.png)
+![](../../images/5a92d69de4b0874437cfe5f4.png)
 
 
 * Offline Issuance Mode
