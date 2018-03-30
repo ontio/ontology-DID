@@ -66,7 +66,6 @@ Of course, you can also refer directly to our various SDKs and RPC interfaces, i
 
 * [>> TS SDK](https://github.com/ontio/ontology-ts-sdk)  
 
-If you are a trust anchor, please go to [>> The Access Standard for Trust Anchor](./docs/en/verification_provider_specification.md) for details.
 
 
 ## Trust Anchor
