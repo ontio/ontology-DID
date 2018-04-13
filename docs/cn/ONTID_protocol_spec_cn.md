@@ -19,13 +19,14 @@ ONT ID是一种URI，由每个实体自己生成成。其生成算法需要保�
 ONT ID 生成算法：
 
 为了防止用户错误输入Ont ID，我们定义一个合法的Ont ID必须包含4个字节的校验数据。我们详细描述一下如何生成一个合法的Ont ID。
- 1. 生成32字节临时随机数nonce，计算h = Hash160(nonce），data = VER || h；
+
+ 1. 生成32字节临时随机数nonce，计算h = Hash160(nonce），data = `<VER>` || h；
  2. 计算出data的一个4字节校验，即checksum = SHA256(SHA256(data))[0:3]；
  3. 令idString = data || checksum；
- 4. 将"did:ont:"与data级联，即 ontId = "did:ont:" || idString；
+ 4. 将"did:`<ont>`:"与data级联，即 ontId = "did:`<ont>`:" || idString；
  5. 输出ontId。
 
-其中，"did:ont:"是8个字节的数据，idString是25字节，因而ontId是一个33字节的数据。
+其中，`<ont>`是一个网络标识,`<VER>`是1字节的版本号。在ONT中， `<VER> = 41, <ont> = "ont"`，也就是说，ONT中的身份标识的前8个字节是"did:ont:", 再加上25字节的idString，构成完整的ontId。
 
 
 ### 1.2 自主管理
