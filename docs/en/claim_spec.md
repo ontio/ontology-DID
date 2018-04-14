@@ -1,4 +1,8 @@
-# Verifiable Claim
+[中文版](../cn/claim_spec_cn.md)
+
+<h1 align="center">Verifiable Claim Protocol</h1>
+<h4 align="center">Version V0.7.0 </h4>
+
 The entire workflow of the verifiable claim is shown in the figure below. It contains three major parts:
 
 - Request claim;

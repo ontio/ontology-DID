@@ -39,7 +39,7 @@ A statement to confirm a claim made by one entity about another (including thems
 
 
 ![](./images/20180316233010.png)
-
+[>> Learn more](./docs/en/claim_spec.md)
 
 ## Deploy
 

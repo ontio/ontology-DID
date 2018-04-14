@@ -1,7 +1,7 @@
 ﻿[English Version](../en/ONTID_protocol_spec.md)
 
-<h1 align="center">ONT ID 身份标识协议及智能合约实现说明 </h1>
-<h4 align="center">版本 V0.6.0 </h4>
+<h1 align="center">Ontology DID身份标识协议规范 </h1>
+<h4 align="center">版本 V0.7.0 </h4>
 
 
 实体是指现实世界中的个人、组织（组织机构、企事业单位等）、物品（手机、汽车、IOT设备等）、内容（文章、版权等），而身份是指实体在网络上的对应标识。本体使用本体⾝份标识（ONT ID）来标识和管理实体的网络身份。在本体上，⼀个实体可以对应到多个身份标识，且多个身份标识之间没有任何关联。
@@ -10,7 +10,7 @@ ONT ID是⼀个去中心化的身份标识协议，ONT ID具有去中心化、�
 
 > ONT ID协议已被本体区块链智能合约完整实现，作为协议层，和区块链是解耦设计，并不仅限于本体区块链，同样可以基于其他区块链。
 
-## ONT ID协议
+## 身份标识协议规范
 
 ### 1.1 ONT ID生成
 
@@ -18,15 +18,15 @@ ONT ID是一种URI，由每个实体自己生成成。其生成算法需要保�
 
 ONT ID 生成算法：
 
-为了防止用户错误输入Ont ID，我们定义一个合法的Ont ID必须包含4个字节的校验数据。我们详细描述一下如何生成一个合法的Ont ID。
+为了防止用户错误输入ONT ID，我们定义一个合法的ONT ID必须包含4个字节的校验数据。我们详细描述一下如何生成一个合法的ONT ID。
 
  1. 生成32字节临时随机数nonce，计算h = Hash160(nonce），data = `<VER>` || h；
  2. 计算出data的一个4字节校验，即checksum = SHA256(SHA256(data))[0:3]；
  3. 令idString = data || checksum；
  4. 将"did:`<ont>`:"与data级联，即 ontId = "did:`<ont>`:" || idString；
- 5. 输出ontId。
+ 5. 输出ONT ID。
 
-其中，`<ont>`是一个网络标识,`<VER>`是1字节的版本号。在ONT中， `<VER> = 41, <ont> = "ont"`，也就是说，ONT中的身份标识的前8个字节是"did:ont:", 再加上25字节的idString，构成完整的ontId。
+其中，`<ont>`是一个网络标识,`<VER>`是1字节的版本号。在ONT中， `<VER> = 41, <ont> = "ont"`，也就是说，ONT中的身份标识的前8个字节是"did:ont:", 再加上25字节的idString，构成完整的ONT ID。
 
 
 ### 1.2 自主管理

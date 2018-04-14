@@ -1,4 +1,8 @@
-# 可信声明
+[中文版](../en/claim_spec.md)
+
+<h1 align="center">可信申明协议规范</h1>
+<h4 align="center">Version 0.7.0 </h4>
+
 可信声明的整个工作流程如下图所示，包含三大部分，即
 
 - 请求声明；
