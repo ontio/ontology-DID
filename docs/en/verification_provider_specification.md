@@ -2,7 +2,7 @@
 
 
 <h1 align="center">The Access Standard for Trust Anchor</h1>
-<h3 align="center">Version V0.6.0 </h3>
+<h3 align="center">Version 0.6.0 </h3>
 
 ## Introduction
 

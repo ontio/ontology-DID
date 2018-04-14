@@ -2,7 +2,7 @@
 
 
 <h1 align="center">信任锚接入标准 </h1>
-<h3 align="center">版本 V0.6.0 </h3>
+<h3 align="center">版本 0.6.0 </h3>
 
 ## 概述
 

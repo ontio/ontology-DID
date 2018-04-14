@@ -1,7 +1,7 @@
 ﻿[English Version](../en/ONTID_protocol_spec.md)
 
 <h1 align="center">Ontology DID身份标识协议规范 </h1>
-<h4 align="center">版本 V0.7.0 </h4>
+<h4 align="center">版本 0.7.0 </h4>
 
 
 实体是指现实世界中的个人、组织（组织机构、企事业单位等）、物品（手机、汽车、IOT设备等）、内容（文章、版权等），而身份是指实体在网络上的对应标识。本体使用本体⾝份标识（ONT ID）来标识和管理实体的网络身份。在本体上，⼀个实体可以对应到多个身份标识，且多个身份标识之间没有任何关联。

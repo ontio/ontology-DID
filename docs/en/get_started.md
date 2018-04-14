@@ -2,7 +2,7 @@
 
 
 <h1 align="center">ONT ID Quick Deployment Guide</h1>
-<h4 align="center">Version V0.6.0 </h4>
+<h4 align="center">Version 0.6.0 </h4>
 
 
 We support the use of multiple SDKs or RPCs to apply ONT IDs. We use the JS SDK as an example to illustrate rapid development. The following sample code in this document uses node environment as an example.

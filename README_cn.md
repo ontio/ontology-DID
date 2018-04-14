@@ -1,7 +1,7 @@
 [English Version](./README.md)
 
 
-<h1 align="center">Ontology DID及信任框架 </h1>
+<h1 align="center">Ontology Distributed Identity Framework (ONTID)  </h1>
 <h4 align="center">版本 0.6.0 </h4>
 
 ## 概述
