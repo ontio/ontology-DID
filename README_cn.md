@@ -51,7 +51,7 @@ Ontology DID（简称：ONT ID）是一个去中心化的身份标识协议，�
 
 * 第二步 部署IDContract智能合约
     
-    请在[这里](./resources\smart-contract\NeoVM/IdContract.avm)下载部署文件，并进入[本体智能合约开发指南](https://github.com/ontio/documentation/tree/master/smart-contract-tutorial)，将这本智能合约部署到区块链。
+    请在[这里](./resources/smart-contract/NeoVM/IdContract.avm)下载部署文件，并进入[本体智能合约开发指南](https://github.com/ontio/documentation/tree/master/smart-contract-tutorial)，将这本智能合约部署到区块链。
 
 
 

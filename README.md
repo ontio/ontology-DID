@@ -52,7 +52,7 @@ At the same time, **ONT ID is an open protocol, and we also support the use of d
 
 * Step 2 Deploy IDContract 
     
-    [Here](./resources\smart-contract\NeoVM/IdContract.avm) to download .avm file ，and [>> smart contract tutorial](https://github.com/ontio/documentation/tree/master/smart-contract-tutorial)，deploy this .avm to Blockchain.
+    [Here](./resources/smart-contract/NeoVM/IdContract.avm) to download .avm file ，and [>> smart contract tutorial](https://github.com/ontio/documentation/tree/master/smart-contract-tutorial)，deploy this .avm to Blockchain.
 
 
 
