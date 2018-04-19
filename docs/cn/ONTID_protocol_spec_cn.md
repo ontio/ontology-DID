@@ -14,7 +14,7 @@ ONT ID是⼀个去中心化的身份标识协议，ONT ID具有去中心化、�
 
 ### 1.1 ONT ID生成
 
-ONT ID是一种URI，由每个实体自己生成成。其生成算法需要保证了两个ONT，同时在向本体注册时，共识节点会检查该ID是否已被注册。
+ONT ID是一种URI，由每个实体自己生成。其生成算法需要保证发生碰撞的概率极低，同时在向本体注册时，共识节点会检查该ID是否已被注册。
 
 ONT ID 生成算法：
 
@@ -36,7 +36,7 @@ ONT ID 生成算法：
 本体支持多种国内、国际标准化的数字签名算法，如RSA、ECDSA、SM2等。ONT ID绑定的密钥需指定所使用的算法，同时一个ONT ID可以绑定多个不同的密钥，以满足实体在不同的应用场景的使用需求。
 
 ### 1.4 身份丢失恢复
-ONT ID的所有者可以设置恢复人代替本人行使对ONT ID的管理权，如修改ONT ID对应的属性信息，在密钥丢失时替换密钥。恢复人可以实现多种访问控制逻辑，如“与”、“或”、“(m, n)-门限”。
+ONT ID的所有者可以设置恢复人代替本人行使对ONT ID的管理权，如修改ONT ID对应的属性信息，在密钥丢失时替换密钥。恢复人可以实现多种访问控制逻辑，如“与”、“或”、“(m, n)-门限”。更多示例参见[附录A](ONTID_protocol_spec_cn.md#a-恢复人地址)。
 
 ### 1.5 身份描述对象DDO规范
 
@@ -50,31 +50,24 @@ DDO规范包含如下信息：
 举个例子
 ```json
 {
-	"OntId": "did:ont:xxxxxxxx",
-	"Owners": [
-		{
-			"PubKeyId": "did:ont:xxxxxxxx#keys-1",
+	"OntId": "did:ont:TVuF6FH1PskzWJAFhWAFg17NSitMDEBNoa",
+	"Owners": [{
+			"PubKeyId": "did:ont:TVuF6FH1PskzWJAFhWAFg17NSitMDEBNoa#keys-1",
 			"Type": "ECDSA",
-			"Curve": "p256",
-			"Value": "02yyyyyyyy"
-		}, 
-		{
-			"PubKeyId": "did:ont:xxxxxxxx#keys-2",
-			"Type": "SM2",
-			"Curve": "sm2p256v1",
-			"Value": "02zzzzzzzz"
+			"Curve": "nistp256",
+			"Value":"022f71daef10803ece19f96b2cdb348d22bf7871c178b41f35a4f3772a8359b7d2"
+		}, {
+			"PublicKeyId": "did:ont:TVuF6FH1PskzWJAFhWAFg17NSitMDEBNoa#keys-2", 
+			"Type": "RSA",
+			"Length": 2048, 
+			"Value": "3082010a...."
 		}
 	],
 	"Attributes": {
-		"SocialCredential": {
-			"service": "weibo",
-			"username": "alice",
-			"proof": "https://weibo.com/status/ttttttt"
-		},
 		"OfficialCredential": {
-			"service": "eID",
-			"eId": "dddddddd",
-			"proof": "03xz4f....."
+			"Service": "PKI",
+			"CN": "ont.io",
+			"CertFingerprint": "1028e8f7043f12c0c2069bd7c7b3b26213964566"
 		}
 	},
 	"Recovery": "TA63T1gxXPXWsBqHtBKcV4NhFBhw3rtkAF"
@@ -138,7 +131,7 @@ bool AddRecovery(byte[] ontId, byte[20] recovery, byte[] publicKey);
 
 参数
 - ontId：用户Ont ID；
-- recovery：恢复人地址，即脚本哈希[ScriptHash]()；
+- recovery：恢复人地址；
 - publicKey：用户公钥
 
 ```json
@@ -203,6 +196,24 @@ IdContract中包含三种事件消息，分别是
 	| ontId | byte[] | 用户的Ont Id |
 	| attrName | byte[] | 属性名 |
 	
+
+## 附录
+
+### A. 恢复人地址
+恢复人账户可以实现多种逻辑，如(m,n)-门限，即该账户由n个人共同管理，要使用账户必须集齐至少m个签名方可。
+
+- (m,n)-门限账户
+	```
+	0x02 || RIPEMD160(SHA256(n || m || publicKey_1 || ... || publicKey_n))
+	```
+
+- `AND` 账户地址
+
+  等价于(n, n)-门限账户地址
+
+- `OR` 账户地址
+
+  等价于(1, n)-门限账户地址
 
 
 
