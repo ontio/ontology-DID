@@ -1,8 +1,8 @@
-[中文版](./README_cn.md)
+English / [中文](./README_cn.md)
 
 
 <h1 align="center">Ontology Distributed Identity Framework (ONTID) </h1>
-<h4 align="center">Version 0.6.0 </h4>
+<p align="center" class="version">Version 0.7.0 </p>
 
 ## Introduction
 

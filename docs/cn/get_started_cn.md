@@ -1,8 +1,8 @@
-[中文版](../cn/get_started_cn.md)
+[English](../en/get_started.md) / 中文
 
 
 <h1 align="center">ONT ID 应用快速开发指南 </h1>
-<h4 align="center">版本 0.6.0 </h4>
+<p align="center" class="version">Version 0.7.0 </p>
 
 
 我们支持使用多种SDK或RPC方式来应用ONT ID ，我们以JS SDK为例，说明如何进行快速开发。本文档中以下的示例代码都以Node环境为例。

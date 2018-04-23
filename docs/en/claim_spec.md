@@ -1,7 +1,7 @@
-[中文版](../cn/claim_spec_cn.md)
+English / [中文](../cn/claim_spec_cn.md)
 
 <h1 align="center">Verifiable Claim Protocol</h1>
-<h4 align="center">Version 0.7.0 </h4>
+<p align="center" class="version">Version 0.7.0 </p>
 
 The entire workflow of the verifiable claim is shown in the figure below. It contains three major parts:
 

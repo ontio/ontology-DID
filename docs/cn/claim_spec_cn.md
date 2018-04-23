@@ -1,7 +1,7 @@
-[English version](../en/claim_spec.md)
+[English](../en/claim_spec.md) / 中文
 
 <h1 align="center">可信申明协议规范</h1>
-<h4 align="center">Version 0.7.0 </h4>
+<p align="center" class="version">Version 0.7.0 </p>
 
 可信声明的整个工作流程如下图所示，包含三大部分，即
 

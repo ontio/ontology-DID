@@ -1,7 +1,7 @@
-[中文版](../cn/ONTID_protocol_spec_cn.md)
+English / [中文](../cn/ONTID_protocol_spec_cn.md)
 
 <h1 align="center">Ontology Distributed Identification Protocol</h1>
-<h4 align="center">Version 0.7.0 </h4>
+<p align="center" class="version">Version 0.7.0 </p>
 
 
 “Entity” refers to individuals, legal entities (organizations, enterprises, institutions, etc.), objects (mobile phones, automobiles, IoT devices, etc.), and contents (articles, copyrights, etc.) in the real world, and “identity” refers to the entity's identity within the network. Ontology uses Ontology Identifier (ONT ID) to identify and manage the entities' identities. On Ontology Blockchain, one entity can correspond to multiple individual identities, and there is no relation between multiple identities.
