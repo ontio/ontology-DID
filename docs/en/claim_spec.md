@@ -137,7 +137,7 @@ There are three results of signature verification:
  - The signature is invalid;
  - The signature is valid and the public key is in the status of <code>Revoked</code>;
  - Signature is valid.
-  
+  
 
 Verification of the expiration time: Verify whether the timeout period has expired.
 
@@ -260,3 +260,8 @@ The format definition of Content in Appendix A is given below.
     }
 }
 ```
+
+### [More claim template examples](https://github.com/ontio/ontology-DID/blob/master/claimtemplate/en/ClaimTemplate_definition.md)
+
+
+
