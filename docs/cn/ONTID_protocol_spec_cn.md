@@ -93,7 +93,7 @@ public static Object Main(string op, object[] params);
 用户在登记身份时，必须要提交一个公钥，并且**这次操作必须是由该公钥发起**。
 
 ```json
-bool RegIdWIthPublicKey(byte[] ontId, byte[] publicKey); 
+bool RegIdWithPublicKey(byte[] ontId, byte[] publicKey); 
 ```
  参数：
   - ontId，用户标识，byte[] 类型；
