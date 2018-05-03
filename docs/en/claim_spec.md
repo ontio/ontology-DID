@@ -80,17 +80,17 @@ After serialization, this will look like
 ```
 a:5:{s:7:"Version";s:3:"1.0";....
 ```
-Then the issuer will invoke the `sign` algorithm of the signature scheme he choose on the serialized text. For example, if the private key the issuer choose is an ECDSA key, and the signature scheme he choose is `ECDSAwithSHA256`, then he would sign the message digest computed from SHA256. This will produce a valid signature which can be encoded in some commonly used encoding method such as `base64`. A sample signature should look like 
+Then the issuer will invoke the sign algorithm of the signature scheme he choose on the serialized text. If the private key the issuer choose is an ECDSA key, and the signature scheme he choose is ECDSAwithSHA256, then he would sign the message digest computed from SHA256. This will produce a valid signature which can be encoded in some commonly used encoding methods.  A valid signature must contain at least four fields, namely, `PublicKeyId`, `Format`, `Algorithm`, `Value`. 
 ```
-{
-    "Signature":{
-        "PublicKeyId": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1",
-    	"Format":"base64",
-    	"Algorithm":"ECDSAwithSHA256",
-    	"Value":"rsjaenrxJm8qDmhtOHNBNOCOlvz/GC1c6CMnUb7KOb1jmHbMNGB63VXhtKflwSggyu1cVBK14/0t7qELqIrNmQ=="
-    },
+"Signature":{
+    "PublicKeyId": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1",
+    "Format":"base64",
+    "Algorithm":"ECDSAwithSHA256",
+    "Value":"rsjaenrxJm8qDmhtOHNBNOCOlvz/GC1c6CMnUb7KOb1jmHbMNGB63VXhtKflwSggyu1cVBK14/0t7qELqIrNmQ=="
 }
 ```
+The `PublicKeyId` field is of the form `<ontID>#keys-<id>`. In this version of specification, the encoding methods are limited: `hex`, `base64`, `base58`, `pgp`.
+
 This JSON object will be serialized into the signature part of the JWT format. 
 
 We augment the JWT format by appending the blockchain proof in the end, namely, our format for a verifiable claim is organized as 
@@ -207,7 +207,7 @@ The revocation list mainly includes the unique identifier of the revoked verifia
 
 ```json
 {
-    "Version": "1.0",
+    "Version": "0.7.0",
     "Id":"ca4ab2f56d106dac92e891b6f7fc4d9546fdf2eb94a364208fa65a9996b03ba0",
     "Context":"https://example.com/salary/template/v1",
     "Content":{
@@ -223,18 +223,16 @@ The revocation list mainly includes the unique identifier of the revoked verifia
         "Subject":"did:ont:SI59Js0zpNSiPOzBdB5cyxu80BO3cjGT70",
         "Expires":"2018-06-01",
         "Revocation": { 
-            "Type": "Contract",
+            "Type": "AttestContract",
             "Addr": "8055b362904715fd84536e754868f4c8d27ca3f6"
         }
     },
-
     "Signature":{
         "PublicKeyId": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1",
     	"Format":"pgp",
     	"Algorithm":"ECDSAwithSHA256",
-    	"Value":"rsjaenrxJm8qDmhtOHNBNOCOlvz/GC1c6CMnUb7KOb1jmHbMNGB63VXhtKflwSggyu1cVBK14/0t7qELqIrNmQ=="
+        "Value":"rsjaenrxJm8qDmhtOHNBNOCOlvz/GC1c6CMnUb7KOb1jmHbMNGB63VXhtKflwSggyu1cVBK14/0t7qELqIrNmQ=="
     },
-
     "Proof":{
         "Type":"MerkleProof",
         "TxnHash":"c89e76ee58ae6ad99cfab829d3bf5bd7e5b9af3e5b38713c9d76ef2dcba2c8e0",
@@ -252,24 +250,23 @@ The revocation list mainly includes the unique identifier of the revoked verifia
 }
 ```
 
-
-
 Field description:
 
 | Field     |     Type |   Description   | Necessary|
 | :-------------- | :--------:| :------ |:------: |
+|   Version | String | The version of the verifiable claim  | Y |
 |    Id|   String|  Unique identifier of verifiable claim  |Y|
-|    Context|   String|  Content template identifier  |Y|
-|    Content|   Object|  Content of verifiable claim，key-value form  |Y|
+|    Context|   String|  Content template uri  |Y|
+|    Content|   Object|  Content of verifiable claim  |Y|
 |    Metadata|   Object|  Metadata of verifiable claim  |Y|
 |    Metadata.CreateTime|   String|  Created time, format：yyyy-MM-dd'T'HH:mm:ss'Z'  |Y|
 |    Metadata.Issuer|   String|  The ONT ID of verifiable claim issuer |Y|
-|    Metadata.Subject|   String|  The ONT ID of verifiable claim Recipient  |Y|
-|    Metadata.IssuerName|   String|  Verifiable claim issuer name  |N|
+|    Metadata.Subject|   String|  The ONT ID of verifiable claim recipient  |Y|
+|    Metadata.IssuerName|   String|   The issuer's name  |N|
 |    Metadata.Expires|   String|  Expiration time, format：yyyy-MM-dd  |N|
-|    Metadata.Revocation|   String|  Declaration of the revocation type(revocation list or revocation with a attest contract)  |N|
+|    Metadata.Revocation|   String|  The type of revocation mechanism  |N|
 |    Signature|   Object |  Signature information  |Y|
-|    Signature.PublicKeyId|   String |  The ID of a signature public key  |Y|
+|    Signature.PublicKeyId|   String |  The ID of public key used to verify signature  |Y|
 |    Signature.Format|   String |  Signature format  |Y|
 |    Signature.Algorithm|   String |  Signature algorithm  |Y|
 |    Signature.Value|   String |  Signature value  |Y|
@@ -277,11 +274,36 @@ Field description:
 
 
 Detailed description:
-- Id: The unique identifier of the verifiable claim. The generating logic is to do Hash for the contents of the Context, Content, and Metadata fields to ensure uniqueness.
-- Context: The Content format defines the document address, the target document defines the meaning of each (key, value) in the Content, and the type of the value;
+- Id: The unique identifier of the verifiable claim. This is generated by hashing the `Version`, `Context`, `Content`, and `Metadata` fields. 
+- Context: The uri  of the claim definition document which  defines the meaning of each field and the type of the value;
 - Content: The contents of the verifiable claim.
-- Metadata: Metadata, which contains basic information such as issuing time, issuer and recipient identity.
-- Signature: Signature information is the signature of the issuer to the content of Id, Context, Content, Metadata, which can be used for verification of the subsequent verifiable claim.
+- Metadata: The metadata contains basic information such as the identity of issuer and recipient, expiration time, and the type of revocation mechanism. Two revocation mechanisms can be used. 
+    - Revocation list
+       
+       The list contains the claims revoked by issuer which specifies           the id of revoked claim, the time of revocation. To use this mechanism, the claim must contain the url of the list, and the `Type` must be `RevocationList`.   
+       ```json
+       "Revocation": {
+           "Type": "RevocationList",
+           "Url": "https://example.com/rev/1234"
+       }
+       ```
+
+    - Revocation with attest contract
+        
+         The revocation information is recorded in the attest contract via the `Revoke` function. To find out if a claim has been revoked, the standard approach is to invoke the `GetStatus` function. Please refer to [section 1.3](claim_spec.md#1.3-attest-contract) for more information.
+
+         ```json
+         "Revocation": {
+             "Type": "AttestContract",
+             "Addr": "8055b362904715fd84536e754868f4c8d27ca3f6"
+         }
+         ```
+
+
+- Signature: This field contains an object which specifies the digital signature of claim. It must contain 
+    - `PublicKeyId` from which we can get the public key and check if the public key is owned by the issuer.
+    - `Format` specifies the rule used to decode the value of signature.
+    - `Algorithm` defines the signature verification algorithm to use. 
 - Proof: Proof of integrity that verify the existence and integrity of a verifiable claim by Merkle proof in Ontology.
 
 ### B. Content format definition template
