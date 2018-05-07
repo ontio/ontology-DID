@@ -1,7 +1,7 @@
 English / [中文](../cn/claim_spec_cn.md)
 
 <h1 align="center">Verifiable Claim Protocol</h1>
-<p align="center" class="version">Version 0.7.0 </p>
+<p align="center" class="version">Version 0.7.1 </p>
 
 The entire workflow of the verifiable claim is shown in the figure below. It contains three major parts:
 
@@ -47,21 +47,24 @@ The above steps correspond to steps 1 - 4 in the workflow of the verifiable clai
 
 ### 1.2 The format of a verifiable claim
 
-We will use an extension of the [JSON Web Token](https://tools.ietf.org/html/rfc7519) format to represent the claim to be transferred between issuer and recipient. In particular, the JWT format consists of three parts, i.e., 
-- header 
-- payload 
-- signature
+We will use an extension of the [JSON Web Token](https://tools.ietf.org/html/rfc7519) format to represent a verifiable claim which is transferred between issuer and recipient. 
+
+Basic structure of the token consists of three parts: Header, Payload and Signature. The standard JWT attributes are reused as much as possible and in special cases custom attributes are defined.
+
+We augment the JWT format by appending the blockchain proof in the end,  a typical verifiable claim is organized as 
+` header . payload . signature . blockchain_proof`.
+> Note: blockchain_proof is optional. In some cases, Claim not include blockchain_proof.
 
 #### Header
 The header part defines the type of the format, the signature scheme employed and id of the public key used to verify the signature. 
 ```json
 {
-    "alg": "ONT-ES256",
+    "alg": "ES256",
     "typ": "JWT-X",
     "kid": "did:ont:TRAtosUZHNSiLhzBdHacyxMX4Bg3cjWy3r#keys-1"
 }
 ```
-- **alg** attribute specifies the signature scheme to use. A list of supported values can be found here.
+- **alg** attribute specifies the signature scheme to use. A list of supported values can be found [here](##_Supported_signature_schemes).
 - **typ** attribute can take one of the two values
     - JWT: This corresponds to the case that blockchain proof is not contained in the claim.
     - JWT-X: This corresponds to the case that blockchain proof is a part of the claim. 
@@ -107,19 +110,23 @@ To issue a claim, first construct the JSON object that represents the claim id, 
 ```
 
 #### Signature
-To generate the signature part, the issuer will first invoke the sign algorithm of the signature scheme he choose on the serialized text, i.e.  
+
+After constructing Header and Payload of the request, Signature part is computed according to JWS standard. Full description can be found in [RFC 7515 Section 5.1](https://tools.ietf.org/html/rfc7515#section-5.1). The simplified version is as follows:
+
+* Compute the signing input as serialization of Header and Payload according to JWS specification. 
 ```
 sig := sign(Base64URL(header) || . || Base64URL(payload))
 ```
-where the operator `||` means to concat these strings together. Then encode the signature using `Base64URL` encoding method, i.e.,
- ```
- signature := Base64URL(sig).
- ```
+
+* Compute the JWS Signature in the manner defined for the particular signature scheme being used over the signing input.
+
+* Encode the signature
+```
+signature := Base64URL(sig).
+```
+
 
 #### Blockchain proof
-
-We augment the JWT format by appending the blockchain proof in the end, namely, our format for a verifiable claim is organized as 
-` header . payload . signature . blockchain_proof`.
 
 ```json
 {
@@ -143,6 +150,17 @@ We augment the JWT format by appending the blockchain proof in the end, namely, 
 - **BlockHeight** attribute refers to the height of block which contains the attest transaction.
 - **MerkleRoot** attribute refers to the root of Merkle tree when the tree size equals to BlockHeight.
 - **Nodes** attribute refers to the inclusion proof of block in the Merkle tree.
+
+Encode the MerkleProof as below:
+```
+BASE64URL(MerkleProof)
+```
+
+Now a complete verifiable claim is created:
+```
+ BASE64URL(Header) || '.' || BASE64URL(Payload) || '.' || BASE64URL(Signature)  '.' || BASE64URL(MerkleProof) 
+ ```
+
 ### 1.3 Attest contract
 
 The attest contract of verifiable claim  provides the attest service and the record availability information, that is, whether it has been revoked.
@@ -230,6 +248,20 @@ Using the revocation inquiry interface as an example, if the revocation informat
 
 The revocation list mainly includes the unique identifier of the revoked verifiable claim and the revocation time.
 
+## Supported signature schemes
+
+* ES224 - ECDSA with SHA224,
+* ES256 - ECDSA with SHA256,
+* ES384 - ECDSA with SHA384,
+* ES512 - ECDSA with SHA512,
+* ES3-224 - ECDSA with SHA3 224
+* ES3-256 - ECDSA with SHA3 256
+* ES3-384 - ECDSA with SHA3 384
+* ES3-512 - ECDSA with SHA3 512
+* ER160 - ECDSA with RIPEMD160
+* SM - SM2 with SM3
+* EDS512 - EDDSA with SHA256
+
 ## Appendix
 ### A. Verifiable claim template
 
@@ -265,6 +297,10 @@ The revocation list mainly includes the unique identifier of the revoked verifia
 }
 ```
 #### Signature
+
+```
+TODO
+```
 
 #### Blockchain proof    
 ```   
