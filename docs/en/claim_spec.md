@@ -170,10 +170,10 @@ The interfaces provided are mainly
 - Commit attest
 
     ```
-    bool Commit(byte[] claimId, byte[] committerOntId);
+    bool Commit(byte[] claimId, byte[] committerOntId, byte[] ownerOntId);
     ```
 
-    In the attest contract, the unique identifier of a claim is the claim ID. It is the first parameter; The committerOntId is the ONT identity of the attester.
+    In the attest contract, the unique identifier of a claim is the claim ID. It is the first parameter; The committerOntId is the ONT identity of the attester.The ownerOntId is the ONT identity of the owner.
     
     This function will return `true` if and only if the claim is not attested, and the function is called by the committer; Otherwise, it will return `false`.
 

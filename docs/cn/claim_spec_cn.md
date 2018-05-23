@@ -168,17 +168,17 @@ MerkleProof按照以下格式编码
 
 ### 1.3 存证合约
 
-可信声明存证合约提供存证服务，以及记录可用性信息，即是否被吊销等信息。
+可信声明存证合约提供存证服务即存证可信声明Id，签发者ONT身份，属主ONT身份等信息，以及记录可用性信息即是否被吊销等信息。
 
 提供的接口主要是
 
 - 声明存证
 
     ```
-    bool Commit(byte[] claimId, byte[] committerOntId);
+    bool Commit(byte[] claimId, byte[] committerOntId, byte[] ownerOntId);
     ```
 
-    在存证合约中，声明的唯一标识就是声明的ID，这个将被作为第一个参数；committerOntId就是存证人的ONT身份。
+    在存证合约中，声明的唯一标识就是声明的ID，这个将被作为第一个参数，committerOntId就是存证人的ONT身份，ownerOntId是可信声明属主的ONT身份。
 
     当且仅当该声明没有被存证过，且`Commit`函数是由committer调用，才能存证成功；否则，存证失败。
 
@@ -400,4 +400,3 @@ TODO
 
 
 ### [更多可信声明模板示例](https://github.com/ontio/ontology-DID/blob/master/claimtemplate/cn/可信声明模板定义.md)
-
