@@ -6,6 +6,9 @@
 
 场景方作为本体信任生态中使用认证服务的一方，结合本体信任生态中提供认证服务的TrustAnchor，可基于可信声明、OntId、区块链来完成对现实中有关人，物，事的认证。
 
+![flow][1]
+
+
 ## 交互流程说明
 
 ![交互流程说明](http://on-img.com/chart_image/5b62a85fe4b025cf4932deb2.png)
@@ -26,7 +29,7 @@
 
 作为本体信任生态中认证服务的使用方，场景方首先需要到OntPass平台进行注册。
 
-OntPass根据本体生态中各种认证服务提供商TrustAnchor可签发的可信声明，提供了不同类型的标准认证模板（可参考附录**OntPass认证模板**）。场景方注册时可根据自身业务场景选择所需要的认证模板，然后调用场景方注册API进行登记注册，主要包括场景方基本信息、认证模板标识及回调接口等信息。
+OntPass根据本体生态中各种认证服务提供商TrustAnchor可签发的可信声明，提供了不同类型的标准认证模板（可参考**OntPass认证模板**章节）。场景方注册时可根据自身业务场景选择所需要的认证模板，然后调用场景方注册API进行登记注册，主要包括场景方基本信息、认证模板标识及回调接口等信息。
 
 
 #### 场景方注册API
@@ -126,7 +129,9 @@ successResponse：
 
 ### 3.接收用户可信声明
 
-用户使用ONTO App扫描场景方二维码后可进行授权决策，若确认授权则会将用户ONTO App上的场景方所要求的可信声明加密后传输到OntPass，由OntPass通过场景方注册的回调接口透传可信声明到场景方。
+用户使用ONTO App扫描场景方二维码后可进行授权决策，若确认授权则会将用户ONTO App上的可信声明加密传输到OntPass，再由OntPass通过场景方注册的回调接口透传到场景方。
+
+    用户出示的可信声明使用场景方OntId绑定的公钥进行加密，保证数据传输过程中的隐私性和安全性，即只有场景方可进行解密获取原文信息。
 
 所以场景方提供的回调地址需要接收以下POST请求。
 
@@ -165,7 +170,50 @@ requestExample：
 [TS SDK验证可信声明](https://ontio.github.io/documentation/ontology_ts_sdk_identity_claim_en.html#verifiable-claim-verification)
 
 
-### 5.login场景身份验证规范
+
+## OntPass平台认证模板
+
+基于不同TrustAnchor机构签发的各种可信声明，OntPass平台定义了一些基本认证模板，适用于通用的kyc或社媒认证等应用场景。场景方也可以根据自己的业务需求，自由组合各种可信声明并制定基本的授权逻辑规则，生成自定义的认证模板。可在注册登录或生成二维码时灵活选择认证模板。
+
+
+**可信声明：**
+
+| 可信声明标识     |     说明 |   签发者   | 
+| :--------------: | :--------:| :------: |
+|    claim:email_authentication|   个人邮箱认证可信声明|  ONTO  |
+|    claim:mobile_authentication|   个人手机认证可信声明|  ONTO  |
+|    claim:cfca_authentication|   中国公民实名认证可信声明|  CFCA |
+|    claim:cfca_authentication|   中国公民实名认证可信声明|  CFCA |
+|    claim:idm_passport_authentication|   全球用户个人护照认证可信声明|  IdentityMind |
+|    claim:idm_idcard_authentication|    全球用户个人身份证件认证可信声明|  IdentityMind |
+|    claim:idm_dl_authentication|    全球用户个人驾照认证可信声明|  IdentityMind |
+|    claim:github_authentication|   Github社媒认证可信声明|  Github |
+|    claim:twitter_authentication|   Twitter社媒认证可信声明|  Twitter |
+|    claim:linkedin_authentication|   Linkedin社媒认证可信声明| Linkedin |
+|    claim:facebook_authentication|   Facebook社媒认证可信声明|  Facebook |
+
+
+**认证模板：**
+
+认证模板包括认证模板标识、类型、描述，对应的可信声明模板标识，授权逻辑规则，单价等信息。
+
+
+
+| 认证模板类型 | 认证模板标识 | 认证模板描述 | 认证模板对应的可信声明模板标识 | 授权逻辑规则 |
+| :--------: | :--------:|:---------:|:--------: | :--------:|
+| 社交媒体认证    |   authtemplate_social01 |  有关用户各种社交媒体的基本信息认证  | claim:github_authentication<br><br>claim:twitter_authentication<br><br>claim:facebook_auuthentication<br><br>claim:linkedin_authentication    |   任选其一 |
+| kyc认证    |   authtemplate_kyc01 |  有关全球用户基本个人信息的认证  | claim:idm_passport_authentication<br><br>claim:idm_idcard_authentication<br><br>claim:idm_dl_authentication |   任选其一 |
+| kyc认证    |   authtemplate_kyc02 |  有关中国用户的实名信息认证  | claim:cfca_authentication |   必选 |
+
+
+
+
+## 经济激励
+
+用户使用自己已获取到的可信声明在场景方进行扫码授权认证，属于一种标准数据交易模式。可由OntPass平台和智能合约体系来解决数据交易过程中资金分配的公平公正性及用户友好性。
+
+
+## Login场景身份验证规范
 
 在用户使用OntId在第三方login的场景中，第三方可按照以下标准JSON格式的登录请求，来简单快速验证用户是否是某个OntId的属主，完成平台身份验证。即用户使用自己的OntId绑定的私钥对请求信息进去签名，场景方收到请求信息后从链上获取该OntId用户的公钥，进行验签。根据验签结果即可验证该用户是否是某个OntId的属主，完成身份验证。
 
@@ -184,23 +232,9 @@ requestExample：
 |    Signature|   String|  用户对请求信息的签名 |
 
 
-### 6.附录：
+## 附录：
 
-
-#### OntPass平台认证模板
-
-认证模板包括认证模板标识、类型、描述，对应的claim模板标识，授权逻辑规则，绑定的资产分配合约模板标识，单价。
-
-**认证模板示例：**
-
-| 认证模板类型 | 认证模板标识 | 认证模板描述 | 认证模板对应的可信声明模板标识 | 授权逻辑规则 |资产分配模板标识 | 单价 |
-| :--------: | :--------:|:---------:|:--------: | :--------:|:--------: | :--------:|
-| 社媒认证    |   authtemplate_social01 |  有关用户各种社交媒体的认证  | claim:github_authentication,claim:twitter_authentication,claim:facebook_auuthentication,claim:linkedin_authentication    |   任选其一 |2x34dhvtrkvfij3454556 | 1ONG  |
-| kyc认证    |   authtemplate_kyc01 |  有关全球用户基本个人信息的认证  | claim:idm_passport_authentication,claim:idm_idcard_authentication,claim:idm_dl_authentication |   任选其一 |13i8hhvurkvfij34545q6c | 2ONG  |
-| kyc认证    |   authtemplate_kyc02 |  有关中国用户的实名认证  | claim:cfca_authentication |   必选 |2x9kdh1trkvndj34540kp | 2ONG  |
-
-
-#### 可信声明规范
+### 可信声明规范
 
 可信声明使用JSON Web Token的扩展格式来表示，基本结构由三部分组成：Header，Payload，Signature。我们通过在最后附加区块链证明Blockchain_Proof来扩展JWT格式，一个典型的完整可信声明被组织为
 
@@ -308,3 +342,5 @@ Payload部分定义了可信声明的基本信息及TrustAnchor认证的内容
 
 有关可信声明的详细定义及规范可参考：[可信声明协议规范](https://ontio.github.io/documentation/claim_spec_en.html)
 
+
+  [1]: 123123
