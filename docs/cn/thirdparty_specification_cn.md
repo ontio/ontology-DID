@@ -11,11 +11,11 @@
 ![交互流程说明](http://on-img.com/chart_image/5b62a85fe4b025cf4932deb2.png)
 
 
-- A1：场景方到OntPass平台注册相关基本信息及回调接口，并选择认证模板。然后需按照OntPass平台二维码规范生成场景方的认证二维码。
+- A1：场景方到OntPass平台注册相关基本信息及回调接口，并选择认证模板。然后按照OntPass平台二维码规范生成场景方的认证二维码。
 - A2，A3：用户使用ONTO App扫描场景方出示的二维码，获取到二维码信息后向OntPass发起认证请求。OntPass平台进行二维码校验。
 - A4：二维码校验成功，OntPass返回场景方注册时的基本信息和认证需求到ONTO App。
 - A5：用户在ONTO App上进行授权决策。选择场景方所需的可信声明做授权确认，将加密后的可信声明发送到OntPass。OntPass触发智能合约进行资产交割。
-- A6：OntPass通过场景方注册的回调接口，将用户加密后的的可信声明透传到场景方。
+- A6：OntPass通过场景方注册的回调接口，将用户加密后的的可信声明透传到场景方，场景方可使用自己OntId对应的私钥进行解密，获取用户可信声明。
 - A7：场景方可通过区块链验证用户出示的可信声明的完整性和有效性。
 
 
@@ -88,7 +88,7 @@ successResponse：
 
 ### 2.生成二维码
 
-场景方需要按照OntPass平台的规范生成标准二维码，供ONTO App扫码并进行授权决策。二维码需要嵌入场景方的OntId、语言版本标识、过期时间、认证模板（扩展项，若不填写则默认是场景方注册时登记的认证模板）以其签名。并推荐使用7%低容错率标准生成二维码。
+场景方需要按照OntPass平台的规范生成标准二维码，供ONTO App扫码并进行授权决策。二维码需要嵌入场景方的OntId、语言版本标识、过期时间、认证模板（扩展项，若不填写则默认是场景方注册时登记的认证模板）以其签名。并使用7%低容错率标准生成二维码。
 
 签名用于OntPass对场景方进行身份验证，二维码验证成功后返回给ONTO App用户场景方在OntPass平台注册时的相关信息。
 
@@ -126,7 +126,7 @@ successResponse：
 
 ### 3.接收用户可信声明
 
-用户使用ONTO App扫描场景方二维码后可进行授权决策，若确认授权则会将用户ONTO App上的场景方所要求的可信声明传输到OntPass，由OntPass通过场景方注册的回调接口透传可信声明到场景方。
+用户使用ONTO App扫描场景方二维码后可进行授权决策，若确认授权则会将用户ONTO App上的场景方所要求的可信声明加密后传输到OntPass，由OntPass通过场景方注册的回调接口透传可信声明到场景方。
 
 所以场景方提供的回调地址需要接收以下POST请求。
 
@@ -159,7 +159,7 @@ requestExample：
 
 ### 4.可信声明验证
 
-场景方收到用户的可信声明后，可以解析并到链上验证该可信声明的完整性和有效性。具体的可信声明说明可参考附录**可信声明规范**，验证方法可参考官方提供的各种SDK。
+场景方收到用户的加密可信声明后，可使用自己在OntPass平台登记时的OntId对应的私钥进行解密，并到链上验证该可信声明的完整性和有效性。具体的可信声明说明可参考附录**可信声明规范**，验证方法可参考官方提供的各种SDK。
 
 [JAVA SDK验证可信声明](https://ontio.github.io/documentation/ontology_java_sdk_identity_claim_en.html#3-verify-verifiable-claim)
 [TS SDK验证可信声明](https://ontio.github.io/documentation/ontology_ts_sdk_identity_claim_en.html#verifiable-claim-verification)
@@ -184,12 +184,7 @@ requestExample：
 |    Signature|   String|  用户对请求信息的签名 |
 
 
-### 6.参考DEMO
-
-![Alt text](./OntologyDemo.java)
-
-
-### 7.附录：
+### 6.附录：
 
 
 #### OntPass平台认证模板
