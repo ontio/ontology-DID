@@ -6,7 +6,7 @@
 
 场景方作为本体信任生态中使用认证服务的一方，结合本体信任生态中提供认证服务的TrustAnchor，可基于可信声明、OntId、区块链来完成对现实中有关人，物，事的认证。
 
-![flow][1]
+![flow](https://github.com/ontio/ontology-DID/blob/master/images/thirdparty_flow.png)
 
 
 ## 交互流程说明
@@ -167,13 +167,17 @@ requestExample：
 场景方收到用户的加密可信声明后，可使用自己在OntPass平台登记时的OntId对应的私钥进行解密，并到链上验证该可信声明的完整性和有效性。具体的可信声明说明可参考附录**可信声明规范**，验证方法可参考官方提供的各种SDK。
 
 [JAVA SDK验证可信声明](https://ontio.github.io/documentation/ontology_java_sdk_identity_claim_en.html#3-verify-verifiable-claim)
+
+
 [TS SDK验证可信声明](https://ontio.github.io/documentation/ontology_ts_sdk_identity_claim_en.html#verifiable-claim-verification)
 
 
 
 ## OntPass平台认证模板
 
-基于不同TrustAnchor机构签发的各种可信声明，OntPass平台定义了一些基本认证模板，适用于通用的kyc或社媒认证等应用场景。场景方也可以根据自己的业务需求，自由组合各种可信声明并制定基本的授权逻辑规则，生成自定义的认证模板。可在注册登录或生成二维码时灵活选择认证模板。
+基于不同TrustAnchor机构签发的各种可信声明，OntPass平台定义了一些基本认证模板，适用于通用的kyc或社媒认证等应用场景。
+
+场景方也可以根据自己的业务需求，自由组合各种可信声明并制定基本的授权逻辑规则，生成自定义的认证模板。这样场景方在OntPass平台注册或生成二维码时可灵活选择认证模板。
 
 
 **可信声明：**
