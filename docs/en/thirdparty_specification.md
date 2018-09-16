@@ -14,11 +14,11 @@
 ![Exchange Process](http://on-img.com/chart_image/5b62a85fe4b025cf4932deb2.png)
 
 
-- A1：场景方到OntPass平台注册相关基本信息及回调接口，并选择认证模板。然后按照OntPass平台二维码规范生成场景方的认证二维码。KYC requestor will register their basic information and recall function and then choose the certification template on the OntPass platform. OntPass platform will form a official QR code for KYC reqestor.
-- A2，A3：用户使用ONTO App扫描场景方出示的二维码，获取到二维码信息后向OntPass发起认证请求。OntPass平台进行二维码校验。Users will scan the official QR code provided by the KYC requestor within the ONTO App and trigger the verification request to Ontpass after scanning the QR code. OntPass platform will verify the QR code.
-- A4：二维码校验成功，OntPass返回场景方注册时的基本信息和认证需求到ONTO App。OntPass will feedback the basic information and verification requirement to ONTO App after the successful confirmation of the QR code.
-- A5：用户在ONTO App上进行授权决策。选择场景方所需的可信声明做授权确认，将加密后的可信声明发送到OntPass。OntPass触发智能合约进行资产交割。Users will delegate the verification right on ONTO App. After choosing the correct verifiable claim for the verification, XX will send the encrypted statement to Ontpass.
-- A6：OntPass通过场景方注册的回调接口，将用户加密后的的可信声明透传到场景方，场景方可使用自己OntId对应的私钥进行解密，获取用户可信声明。Ontpass will deliver the encrypted verifiable claim to KYC requestor by using the registered information and the recall function. KYC requestor will then be able to obtain the verifiable claim by decrypting with his private key. 
+- A1：场景方到OntPass平台注册相关基本信息及回调接口，并选择认证模板。然后按照OntPass平台二维码规范生成场景方的认证二维码。KYC requestor will register their basic information, recall interface and then choose the certification template on the OntPass platform. OntPass platform will generate a official QR code for KYC reqestor.
+- A2，A3：用户使用ONTO App扫描场景方出示的二维码，获取到二维码信息后向OntPass发起认证请求。OntPass平台进行二维码校验。Users will scan the official QR code provided by the KYC requestor in the ONTO App and it will trigger the verification request to OntPass after scanning the QR code. OntPass platform will verify the QR code.
+- A4：二维码校验成功，OntPass返回场景方注册时的基本信息和认证需求到ONTO App. OntPass will feedback the basic information and verification requirement to ONTO App after the successful confirmation of the QR code.
+- A5：用户在ONTO App上进行授权决策。选择场景方所需的可信声明做授权确认，将加密后的可信声明发送到OntPass。OntPass触发智能合约进行资产交割。Users will delegate the verification right on ONTO App. After choosing the correct verifiable claim for the verification, Onto App will send the encrypted statement to Ontpass.
+- A6：OntPass通过场景方注册的回调接口，将用户加密后的的可信声明透传到场景方，场景方可使用自己OntId对应的私钥进行解密，获取用户可信声明。Ontpass will deliver the encrypted verifiable claim to KYC requestor by using the registered information and the recall interface. KYC requestor will then be able to obtain the verifiable claim by decrypting it with his private key. 
 - A7：场景方可通过区块链验证用户出示的可信声明的完整性和有效性。
 
 
@@ -27,10 +27,10 @@
 
 ### 1. OntPass平台注册 Registeration on OntPass Platform
 
-作为本体信任生态中认证服务的使用方，场景方首先需要到OntPass平台进行注册。To receive the authenticity service in the Ontology trust system, a KYC requestor needs to register on the OntPass platform.
+作为本体信任生态中认证服务的使用方，场景方首先需要到OntPass平台进行注册。To receive the authenticity service in the Ontology trust platform, a KYC requestor first needs to register on the OntPass platform.
 
 OntPass根据本体生态中各种认证服务提供商TrustAnchor可签发的可信声明，提供了不同类型的标准认证模板（可参考**OntPass认证模板**章节）。场景方注册时可根据自身业务场景选择所需要的认证模板，然后调用场景方注册API进行登记注册，主要包括场景方基本信息、认证模板标识及回调接口等信息。
-OntPass provides different verification templates for different verifiable claim from different TrustAnchors (Please refer to **OntPass verification template** section). A KYC requestor is able to choose from different templates and register by using the API of a KYC requestor. The registration requires basic information, label of the verification templates and recall function etc.
+OntPass provides different verification templates for different verifiable claim from different TrustAnchors (Please refer to **OntPass verification template** section). A KYC requestor is able to choose from different templates and register by using the API of a KYC requestor. The registration requires basic information, label of the verification templates and recall interface etc.
 
 
 #### 场景方注册API /API for Registration of a KYC Requestor
@@ -131,7 +131,7 @@ Example for generating a QR code:
 	Remark: The OntID in the QR code must match the OntID registered in the OntPass platform. The signature must use standard ECDSA algorithm
 
 
-### 3.接收用户可信声明 Receive verifiable from user
+### 3.接收用户可信声明 Receiving verifiable from user
 
 用户使用ONTO App扫描场景方二维码后可进行授权决策，若确认授权则会将用户ONTO App上的可信声明加密传输到OntPass，再由OntPass通过场景方注册的回调接口透传到场景方。User will delegate the verifying rights by scanning the QR code of the KYC requestor. If the delegation passes on ONTO App, the encrypted verifiable claim will be sent to OntPass, and then redirected to KYC requestor through the recall interface.
 
@@ -170,7 +170,7 @@ requestExample：
 
 ### 4.可信声明验证 Verify the Verifiable claim
 
-场景方收到用户的加密可信声明后，可使用自己在OntPass平台登记时的OntId对应的私钥进行解密，并到链上验证该可信声明的完整性和有效性。具体的可信声明说明可参考附录**可信声明规范**，验证方法可参考官方提供的各种SDK。After the KYC requestor receives the encrypted verifiable claim, the requestor is able to decrypt by using his private key of his OntID and verify the completeness ad effective of that verifiable claim on the blockchain. Detailed explation of verifiable claim can be found in the annex **Verifiable Claim Standards**. You can refer to the SDKs provided by Ontology.
+场景方收到用户的加密可信声明后，可使用自己在OntPass平台登记时的OntId对应的私钥进行解密，并到链上验证该可信声明的完整性和有效性。具体的可信声明说明可参考附录**可信声明规范**，验证方法可参考官方提供的各种SDK。After the KYC requestor receives the encrypted verifiable claim, the requestor is able to decrypt by using his private key of his OntID and verify the completeness and effectiveness of that verifiable claim on the blockchain. Detailed explation of verifiable claim can be found in the annex **Verifiable Claim Standards**. You can refer to the SDKs provided by Ontology.
 
 [JAVA SDK验证可信声明 JAVA SDK verifiable claim verification](https://ontio.github.io/documentation/ontology_java_sdk_identity_claim_en.html#3-verify-verifiable-claim)
 
@@ -179,11 +179,12 @@ requestExample：
 
 
 
-## OntPass平台认证模板
+## OntPass平台认证模板 OntPass Platform Verification Template
 
 基于不同TrustAnchor机构签发的各种可信声明，OntPass平台定义了一些基本认证模板，适用于通用的kyc或社媒认证等应用场景。
+Based on different verifiable claim from different TrustAnchor, ontPass defined a series of basic verification template suitable for general KYC/social media scenarios
 
-场景方也可以根据自己的业务需求，自由组合各种可信声明并制定基本的授权逻辑规则，生成自定义的认证模板。这样场景方在OntPass平台注册或生成二维码时可灵活选择认证模板。
+场景方也可以根据自己的业务需求，自由组合各种可信声明并制定基本的授权逻辑规则，生成自定义的认证模板。这样场景方在OntPass平台注册或生成二维码时可灵活选择认证模板。 KYC requestors can also assemble different verifiable claim with their own logic to generate customized verification template bassed on the actual business needs. KYC requestor will then be able to choose the required template freely.
 
 
 **可信声明：** ** Verifiable Claim**
@@ -221,12 +222,12 @@ Authentication template includes identification of templates, category, descript
 
 ## 经济激励 Incentives
 
-用户使用自己已获取到的可信声明在场景方进行扫码授权认证，属于一种标准数据交易模式。可由OntPass平台和智能合约体系来解决数据交易过程中资金分配的公平公正性及用户友好性。It's considered typical data exchange transaction when a user is using the obtained verifiable claim to authorize a verification from the KYC requestor. OntPass platform is able to guarantee the fairness and friendliness during the data exchange transaction
+用户使用自己已获取到的可信声明在场景方进行扫码授权认证，属于一种标准数据交易模式。可由OntPass平台和智能合约体系来解决数据交易过程中资金分配的公平公正性及用户友好性。It's considered a typical data exchange transaction when a user is using the obtained verifiable claim to authorize a verification from a KYC requestor. OntPass platform is able to guarantee the fairness and friendliness during the data exchange transaction process
 
 
 ## Login场景身份验证规范 Standard of Verifying Identification
 
-在用户使用OntId在第三方login的场景中，第三方可按照以下标准JSON格式的登录请求，来简单快速验证用户是否是某个OntId的属主，完成平台身份验证。即用户使用自己的OntId绑定的私钥对请求信息进去签名，场景方收到请求信息后从链上获取该OntId用户的公钥，进行验签。根据验签结果即可验证该用户是否是某个OntId的属主，完成身份验证。 When a user logs in to a third party with OntID, the third party can rapidly verify the owner of the OntID with JSON format request. Even if the user is using the private key of the OntID to do the signature, the KYC requestor is able to verify the signature with the public key of that particular OntID. 
+在用户使用OntId在第三方login的场景中，第三方可按照以下标准JSON格式的登录请求，来简单快速验证用户是否是某个OntId的属主，完成平台身份验证。即用户使用自己的OntId绑定的私钥对请求信息进去签名，场景方收到请求信息后从链上获取该OntId用户的公钥，进行验签。根据验签结果即可验证该用户是否是某个OntId的属主，完成身份验证。 When a user logs in to a third party with OntID, the third party can quickly verify the owner of the OntID with JSON format request. Even if the user is using the private key of the OntID to do the signature, the KYC requestor is able to verify the signature with the public key of that particular OntID. 
 
 ```
 {
@@ -248,7 +249,7 @@ Authentication template includes identification of templates, category, descript
 ### Verifiable Claim Standards
 
 可信声明使用JSON Web Token的扩展格式来表示，基本结构由三部分组成：Header，Payload，Signature。我们通过在最后附加区块链证明Blockchain_Proof来扩展JWT格式，一个典型的完整可信声明被组织为
-There are three parts to form a JSON Web Token extension file verifiable claim: Header, Payload and Signature. We will attach "Blockchain_Proof" to extend JWT format, a typical verifiable claim can be arranged as:
+There are three parts to form a JSON Web Token extension file verifiable claim: Header, Payload and Signature. We will attach "Blockchain_Proof" to extend JWT format in the end, a typical verifiable claim can be arranged as:
 
 	Header.Payload.Signature.Blockchain_Proof
 
