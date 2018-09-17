@@ -162,7 +162,7 @@ requestExample：
 |    Signature|   String|  signature of the requested information from Ontpass |
 
 
-### 4.可信声明验证 Verify the Verifiable claim
+### 4.Verify the Verifiable claim
 
 After the KYC requestor receives the encrypted verifiable claim, the requestor is able to decrypt by using his private key of his OntID and verify the completeness ad effective of that verifiable claim on the blockchain. Detailed explation of verifiable claim can be found in the annex **Verifiable Claim Standards**. You can refer to the SDKs provided by Ontology.
 
@@ -173,7 +173,7 @@ After the KYC requestor receives the encrypted verifiable claim, the requestor i
 
 
 
-## OntPass平台认证模板
+## OntPass Templete
 
 Based on some veriable claims issued by different TrustAnchors, the OntPass platform defines some basic authentication templates for common kyc  authentication applications.
 
