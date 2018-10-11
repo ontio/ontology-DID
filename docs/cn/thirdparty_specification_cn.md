@@ -343,6 +343,27 @@ Payload部分定义了可信声明的基本信息及TrustAnchor认证的内容
 
 	BASE64URL(Header) || '.' || BASE64URL(Payload) || '.' || BASE64URL(Signature)  '.' || BASE64URL(blockchain_proof) 
 
+**可信声明示例**
+
+下面是一个不带merkleproof的个人邮箱证明可信声明示例
+	
+	eyJraWQiOiJkaWQ6b250OkFScjZBcEsyNEVVN251Zk5ENHMxU1dwd1VMSEJlcnRwSmIja2V5cy0xIiwidHlwIjoiSldULVgiLCJhbGciOiJPTlQtRVMyNTYifQ==.eyJjbG0tcmV2Ijp7InR5cCI6IkF0dGVzdENvbnRyYWN0IiwiYWRkciI6IjgwNTViMzYyOTA0NzE1ZmQ4NDUzNmU3NTQ4NjhmNGM4ZDI3Y2EzZjYifSwic3ViIjoiZGlkOm9udDpBVTFvTHBLMTRFQjdudTdORDRzMTJXcHdVUUhCT3J0MU5oIiwidmVyIjoidjEuMCIsImNsbSI6eyJJc3N1ZXJOYW1lIjoiaG90bWFpbCIsIkVtYWlsIjoiMTgydGVzdEBob3RtYWlsLmNvbSJ9LCJpc3MiOiJkaWQ6b250OkFScjZBcEsyNEVVN251Zk5ENHMxU1dwd1VMSEJlcnRwSmIiLCJleHAiOjE1NzA3ODQ1MjUsImlhdCI6MTUzOTI0ODUyNywiQGNvbnRleHQiOiJjbGFpbTplbWFpbF9hdXRoZW50aWNhdGlvbiIsImp0aSI6Ijc4YjNjZDYzMTdiNTI0MjAyNjdmMWI0M2VhOWMyYTk5NDhmNTY4YzMwNzBlMGQ5MDljMjY0ODRjMGE4YzE2YjkifQ==.AQCIG9ugLuqxBwU2ujISsA84QSItvH5gDmJzescmv+LogE8DjEt7UWjWscssshZWTKUr0UO9eLIg9yf0jva344U=
+
+
+对应的header：
+	
+	{"kid":"did:ont:ARr6ApK24EU7nufND4s1SWpwULHBertpJb#keys-1","typ":"JWT-X","alg":"ONT-ES256"}
+
+
+对应的payload：
+	
+	{"clm-rev":{"typ":"AttestContract","addr":"8055b362904715fd84536e754868f4c8d27ca3f6"},"sub":"did:ont:AU1oLpK14EB7nu7ND4s12WpwUQHBOrt1Nh","ver":"v1.0","clm":{"IssuerName":"hotmail","Email":"182test@hotmail.com"},"iss":"did:ont:ARr6ApK24EU7nufND4s1SWpwULHBertpJb","exp":1570784525,"iat":1539248527,"@context":"claim:email_authentication","jti":"78b3cd6317b52420267f1b43ea9c2a9948f568c3070e0d909c26484c0a8c16b9"}
+
+对应的signature：
+	
+	AQCIG9ugLuqxBwU2ujISsA84QSItvH5gDmJzescmv+LogE8DjEt7UWjWscssshZWTKUr0UO9eLIg9yf0jva344U=
+
+
 
 有关可信声明的详细定义及规范可参考：[可信声明协议规范](https://ontio.github.io/documentation/claim_spec_en.html)
 
