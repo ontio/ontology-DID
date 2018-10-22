@@ -33,8 +33,11 @@
 | 认证模板类型 | 认证模板标识 | 认证模板描述 | 认证模板对应的可信声明模板标识 | 授权逻辑规则 |
 | :--------: | :--------:|:---------:|:--------: | :--------:|
 | 社交媒体认证    |   authtemplate_social01 |  有关用户各种社交媒体的基本信息认证  | claim:github_authentication<br><br>claim:twitter_authentication<br><br>claim:facebook_auuthentication<br><br>claim:linkedin_authentication    |   任选其一 |
+| 联系信息认证    |   authtemplate_contact01 |  有关全球用户的邮箱信息认证  | claim:email_authentication |   必选 |
+| 联系信息认证    |   authtemplate_contact02 |  有关全球用户的手机号信息认证  | claim:mobile_authentication |   必选 |
 | kyc认证    |   authtemplate_kyc01 |  有关全球用户基本个人信息的认证  | claim:idm_passport_authentication<br><br>claim:idm_idcard_authentication<br><br>claim:idm_dl_authentication |   任选其一 |
 | kyc认证    |   authtemplate_kyc02 |  有关中国用户的实名信息认证  | claim:cfca_authentication |   必选 |
+
 
 
 
