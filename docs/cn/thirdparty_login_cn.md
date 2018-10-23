@@ -271,6 +271,7 @@ requestExample：
 
 ### 参考代码
 
+[java示例代码](https://github.com/ontio/ontology-DID/blob/master/docs/cn/OntologyDemo.java)
 
 ### 可信声明规范
 
