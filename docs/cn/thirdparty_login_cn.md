@@ -6,7 +6,7 @@
 
 本文用于指导网站服务方如何接入本体，并使用授权登录服务，流程中涉及到的参与方包括：
 
-* 网站服务方: 对用户提供第三方授权登录的网站或App，是本体信任生态中认证服务的使用方。包括网站页面Website，网站后台服务WebServer。
+* 网站服务方：对用户提供第三方授权登录的网站或App，是本体信任生态中认证服务的使用方。包括网站页面Website，网站后台服务WebServer。
 * ONTPass：基于本体区块链的去中心化身份交易平台，ONTPass主要用于协同用户和需求方进行数据交换，数据全程被加密，ONTPass并不会触碰用户隐私数据。
 * ONTO：综合客户端产品[https://onto.app](https://onto.app)，连接了服务全球的身份认证服务供应商，并帮助用户实现认证和自主管理数据。
 
@@ -18,34 +18,76 @@
 - A1：用户在第三方网站选择使用ONTO一键登录。
 - A2,A3：网站服务器生成带有uid的标准登陆二维码，显示到登录页面。
 - A4：用户打开ONTO App，扫描登录二维码。
-- A5：扫码同时，ONTO App会将二维码uid及用户的OntId使用用户OntId私钥签名后发送到OntPass，OntPass对请求验签成功后通过回调接口将uid及用户OntId转发到网站服务器。同时再将网站登陆要求及网站OntId等基本信息返回到ONTO App。
+- A5：扫码同时，ONTO App会将二维码uid及用户的OntId使用用户OntId私钥签名后发送到OntPass，OntPass对用户请求验签成功后通过回调接口将uid及用户OntId转发到网站服务器。同时再将网站登陆要求及网站OntId等基本信息返回到ONTO App。
 
-    扫码时OntPass通过对请求的签名验签保证用户是该OntId的属主，第三方网站可通过uid及OntId保证二维码与用户唯一绑定性，且记录登录状态。登录token可用于网站对用户后续授权操作的时效性控制，由网站后台登录机制自行决定是否返回token，在后续流程中ONTPass对token只做透传。
+    扫码时OntPass通过对用户请求的签名验签保证用户是该OntId的属主，第三方网站可通过uid及OntId保证二维码与用户唯一绑定性，且记录登录状态。登录token可用于网站对用户后续授权操作的时效性控制，由网站后台登录机制自行决定是否返回token，在后续流程中ONTPass对token只做透传。
     
 - A6：用户根据网站登录要求选择愿意提供的身份信息，使用网站OntId的公钥加密身份信息并用自己OntId的私钥对请求签名，做确认授权。
-- A7：OntPass将授权信息通过回调接口转发到网站服务器。
+- A7：OntPass将用户授权信息通过回调接口转发到网站服务器。
 - A8,A9：网站服务器可通过区块链验证用户出示的身份信息，完成登陆流程。
 
 
 ## 接入步骤
 
-### 1. OntPass平台注册
+### 1.拥有自己的OntId
+
+首先网站服务方需要拥有自己的OntId，有了身份OntId相关信息后便可使用各种SDK进行签名验签等操作。OntId签名验签等身份相关操作可参考附录[示例代码](dsd)或[SDKs开发文档](https://ontio.github.io/documentation/ontology_overview_sdks_en.html)
+
+推荐使用ONTO客户端[https://onto.app](https://onto.app)创建主网OntId。记住密码并导出keystore，keystore已包含salt，加密后的私钥，ontId等信息。
+ONTO导出keystore示例：
+```
+{
+  "scrypt" : {
+    "r" : 8,
+    "p" : 8,
+    "n" : 4096,
+    "dkLen" : 64
+  },
+  "address" : "AYMKcyx1EuY6o7qqMX17DCPbwmsFpQSoAx",
+  "parameters" : {
+    "curve" : "secp256r1"
+  },
+  "claimArray" : [
+  ],
+  "label" : "xxx",
+  "type" : "I",
+  "algorithm" : "ECDSA",
+  "key" : "rnE6WclHSS9tpHGp01KQOM10NzeZt4lvlOOOQC8ht9N0x7d1jkjccP9Ay3qQmStT",
+  "salt" : "UyDgxiZs1StSBkqTmynRJg=="
+}
+```
+
+| Param     |     Type |   Description   |
+| :--------------: | :--------:| :------: |
+|    key|   String | 加密后的私钥 |
+|    salt|   String | 盐，安全参数 |
+|    address|   String | OntId后缀地址。加上did:ont:即完整的OntId |
 
 
-网站服务方首先需要到ONTPass平台进行注册。
+若服务方已拥有资产账户且有ONG，也可直接使用各种SDK自行自付创建OntId，获取OntId相关信息。
+
+
+
+	测试网OntId可以申请由OntPass平台协助注册
+
+
+### 2. ONTPass平台注册
 
 ONTPass根据本体生态中各种认证服务提供商TrustAnchor可签发的可信声明，提供了不同类型的[标准认证模板](./ONTPass_templete_cn.md)。
 
 - Q：什么是认证模板？ 
 - A: 认证模板用于设定需要哪些用户信息，认证模板包括认证模板标识、类型、描述，对应的可信声明模板标识，授权逻辑规则，单价等。
 
-网站服务方需要选择标准认证模板，也可以根据自己的业务需求，自由组合各种可信声明并制定基本的授权逻辑规则，生成自定义的认证模板。然后调用网站服务方注册API进行登记注册，主要包括网站服务方基本信息、认证模板标识及回调接口等信息。
+网站服务方需要选择标准认证模板，也可以根据自己的业务需求，自由组合各种可信声明并制定基本的授权逻辑规则，生成自定义的认证模板。若网站服务方不选择任何认证模板且二维码也不包含认证模板，后续用户登录除了OntId不会提供其他相关身份认证信息。
 
+然后网站服务方便可以到ONTPass进行登记注册，主要包括网站服务方基本信息、认证模板标识及回调接口等信息。
 
 #### 网站服务方注册API
 
+	本体测试网OntPass平台域名：https://app.ont.io/
+
 ```json
-url：/api/v1/ontpass/thirdparty/loginservice?version=0.8
+url：域名+/S1/api/v1/ontpass/thirdparty/loginservice?version=0.8
 method：POST
 requestExample：
 {
@@ -72,24 +114,24 @@ successResponse：
 }
 ```
 
-| UrlParam     |     Type |   Description   |
-| :--------------: | :--------:| :------: |
-|    version|   String | 版本信息。目前是0.8 |
+| UrlParam     |     Type |   Description   |NotEmpty  |
+| :--------------: | :--------:| :------: | :------: |
+|    version|   String | 版本信息。目前是0.8 |Y|
 
 
-| RequestField     |     Type |   Description   |
-| :--------------: | :--------:| :------: |
-|    OntId|   String|  网站服务方OntId  |
-|    NameEN|   String|  网站服务方名称，英文  |
-|    NameCN|   String|  网站服务方名称，中文  |
-|    DesEN|   String|  网站服务方描述，英文  |
-|    DesCN|   String|  网站服务方描述，中文  |
-|    Logo|   String|  网站服务方Logo的url链接  |
-|    CallBackAddr1|   String|  回调地址。满足https+域名，接收post回调请求获取二维码uid及用户ontid |
-|    CallBackAddr2|   String|  回调地址。满足https+域名，接收post回调请求获取用户认证信息 |
-|    Type|   String|  网站服务方所属类型|
-|    ReqContext|   String|  网站服务方选择的标准认证模板标识。该认证模板由OntPass提供。 |
-|    Signature|   String|  请求信息的签名。由网站服务方使用自己OntId的私钥按照标准的ECDSA算法签名。 |
+| RequestField     |     Type |   Description   | NotEmpty  |
+| :--------------: | :--------:| :------: | :------: |
+|    OntId|   String|  网站服务方OntId  |Y|
+|    NameEN|   String|  网站服务方名称，英文  |Y|
+|    NameCN|   String|  网站服务方名称，中文  |Y|
+|    DesEN|   String|  网站服务方描述，英文  |Y|
+|    DesCN|   String|  网站服务方描述，中文  |Y|
+|    Logo|   String|  网站服务方Logo的url链接  |Y|
+|    CallBackAddr1|   String|  回调地址。满足https+域名，接收post回调请求获取二维码uid及用户ontid |Y|
+|    CallBackAddr2|   String|  回调地址。满足https+域名，接收post回调请求获取用户认证信息 |Y|
+|    Type|   String|  网站服务方业务类型描述 |N|
+|    ReqContext|   String|  网站服务方选择的标准认证模板标识。该认证模板由OntPass提供。 |N|
+|    Signature|   String|  请求信息的签名。由网站服务方使用自己OntId的私钥按照标准的ECDSA算法签名。 |Y|
 
 
 
@@ -103,9 +145,9 @@ successResponse：
 
 ### 2.生成二维码
 
-网站服务方需要按照OntPass平台的规范生成标准二维码，供ONTO App扫码并进行授权登录。二维码需要嵌入网站服务方的OntId、uid、认证模板（扩展项，若不填写则默认是网站服务方注册时登记的认证模板）以其签名。并使用7%低容错率标准生成二维码。
+网站服务方需要按照ONTPass平台的规范生成标准二维码，供ONTO App扫码并进行授权登录。二维码需要嵌入网站服务方的OntId、uid、认证模板（扩展项，若不填写则默认是网站服务方注册时登记的认证模板）以其签名。并使用7%低容错率标准生成二维码。
 
-签名用于OntPass对网站服务方进行身份验证，二维码验证成功后返回给ONTO App用户网站服务方在OntPass平台注册时的相关信息。
+二维码里的签名用于ONTPass对网站服务方进行身份验证，二维码验证成功后返回给ONTO App用户网站服务方在ONTPass平台注册时的相关信息。
 
 标准二维码示例：
 
@@ -127,20 +169,20 @@ successResponse：
 ```
 
 
-| Field     |     Type |   Description   | 
-| :--------------: | :--------:| :------: |
-|    OntId|   String|  网站服务方的OntId  |
-|    Uid|   String|  uid,用于二维码绑定唯一登录用户  |
-|    ReqContext|   String|  认证模板。扩展项，可没有该key |
-|    Sig|   String|  网站服务方使用OntId私钥对二维码信息的签名 |
+| Field     |     Type |   Description   | Necessary  |
+| :--------------: | :--------:| :------: |:------: |
+|    OntId|   String|  网站服务方的OntId  |Y|
+|    Uid|   String|  uid,用于二维码绑定唯一登录用户  |Y|
+|    ReqContext|   String|  认证模板。扩展项，可没有该key |N|
+|    Sig|   String|  网站服务方使用OntId私钥对二维码信息的签名 |Y|
 
 
 
-	注意：二维码里的OntId必须是网站服务方在OntPass平台登记的OntId，签名也需要使用该OntId对应的私钥按照标准ECDSA算法，对二维码信息进行签名。
+	注意：二维码里的OntId必须是网站服务方在ONTPass平台登记的OntId，签名也需要使用该OntId对应的私钥按照标准ECDSA算法，对二维码信息进行签名。
 
 ### 3.接收用户扫码动作
 
-用户使用ONTO App扫描网站的登录二维码后，会立即将二维码里的uid及用户OntId传到OntPass，OntPass会将信息通过接口立即回调给网站服务器。网站服务器获取到uid及用户OntId后，便可知道该二维码已经被该OntId用户扫描，登录页面可做相应用户OntId信息显示并记录该用户扫码状态。
+用户使用ONTO App扫描网站的登录二维码后，会立即将二维码里的uid及用户OntId传到ONTPass，ONTPass会将信息通过接口立即回调给网站服务器。网站服务器获取到uid及用户OntId后，便可知道该二维码已经被该OntId用户扫描，登录页面可做相应用户OntId信息显示并记录该用户扫码状态。
 
 所以网站服务方提供的回调地址CallBackAddr1需要接收以下POST请求，若包含登录token需按照successResponse示例，返回到对应的Token字段。
 
@@ -160,15 +202,16 @@ successResponse：
 {
 	...
     "Token": :"12313132"
+	...
 }
 ```
 
-| RequestField     |     Type |   Description   | 
-| :--------------: | :--------:| :------: |
-|    Uid|   String|  二维码里的uid  |
-|    UserOntId|   String| 用户的OntId |
-|    OntPassOntId|   String| OntPass平台的OntId |
-|    Signature|   String| OntPass对请求信息的签名 |
+| RequestField     |     Type |   Description   | NotEmpty  |
+| :--------------: | :--------:| :------: |:------: |
+|    Uid|   String|  二维码里的uid  |Y|
+|    UserOntId|   String| 用户的OntId |Y|
+|    OntPassOntId|   String| OntPass平台的OntId |Y|
+|    Signature|   String| OntPass对请求信息的签名 |Y|
 
 | responsetField     |     Type |   Description   | 
 | :--------------: | :--------:| :------: |
@@ -177,7 +220,7 @@ successResponse：
 
 ### 4.接收用户可信声明
 
-用户使用ONTO App扫描网站登录二维码后可进行授权决策，选择愿意提供给网站方登录所需的身份认证信息。若确认授权则会将用户ONTO App上的可信声明加密传输到OntPass，再由OntPass通过网站服务方注册的回调接口透传到网站服务方。
+用户使用ONTO App扫描网站登录二维码后可进行授权决策，选择愿意提供给网站方登录所需的身份认证信息。若确认授权则会将用户ONTO App上的可信声明加密传输到ONTPass，再由ONTPass通过网站服务方注册的回调接口透传到网站服务方。
 
     用户出示的可信声明使用网站服务方OntId绑定的公钥进行加密，保证数据传输过程中的隐私性和安全性，即只有网站服务方可进行解密获取原文信息。
 
@@ -202,16 +245,16 @@ requestExample：
 
 ```
 
-| RequestField     |     Type |   Description   | 
-| :--------------: | :--------:| :------: |
-|    Version|   String|  版本号。目前是0.8  |
-|    AuthId|   String|  OntPass平台授权编码  |
-|    OntPassOntId|   String|  OntPass平台的OntId  |
-|    UserOntId|   String|  用户OntId  |
-|    ThirdPartyOntId|   String|  网站服务方的OntId  |
-|    Token|   String|  网站服务方的登录token |
-|    EncryClaims|   list|  加密后的用户可信声明列表 |
-|    Signature|   String|  OntPass对请求信息的签名 |
+| RequestField     |     Type |   Description   | NotEmpty|
+| :--------------: | :--------:| :------: |:------: |
+|    Version|   String|  版本号。目前是0.8  |Y|
+|    AuthId|   String|  OntPass平台授权编码  |Y|
+|    OntPassOntId|   String|  OntPass平台的OntId  |Y|
+|    UserOntId|   String|  用户OntId  |Y|
+|    ThirdPartyOntId|   String|  网站服务方的OntId  |Y|
+|    Token|   String|  网站服务方的登录token |N|
+|    EncryClaims|   list|  加密后的用户可信声明列表 |N|
+|    Signature|   String|  OntPass对请求信息的签名 |Y|
 
 
 ### 4.可信声明验证
@@ -224,15 +267,10 @@ requestExample：
 [TS SDK验证可信声明](https://ontio.github.io/documentation/ontology_ts_sdk_identity_claim_en.html#verifiable-claim-verification)
 
 
-
-
-## 经济激励
-
-用户使用自己已获取到的可信声明在网站服务方进行扫码授权认证，属于一种标准数据交易模式。可由OntPass平台和智能合约体系来解决数据交易过程中资金分配的公平公正性及用户友好性。
-
-
-
 ## 附录：
+
+### 参考代码
+
 
 ### 可信声明规范
 
