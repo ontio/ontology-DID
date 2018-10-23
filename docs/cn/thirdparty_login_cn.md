@@ -155,6 +155,7 @@ successResponse：
 {
 	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Uid":"215348388572334234",
+	"Ope":"signin",
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
 }
 ```
@@ -163,6 +164,7 @@ successResponse：
 {
 	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Uid":"215348388572334234",
+	"Ope":"signin",
 	"ReqContext":"authtemplate_kyc02",
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
 }
@@ -173,6 +175,7 @@ successResponse：
 | :--------------: | :--------:| :------: |:------: |
 |    OntId|   String|  网站服务方的OntId  |Y|
 |    Uid|   String|  uid,用于二维码绑定唯一登录用户  |Y|
+|    Ope|   String|  固定值signin  |Y|
 |    ReqContext|   String|  认证模板。扩展项，可没有该key |N|
 |    Sig|   String|  网站服务方使用OntId私钥对二维码信息的签名 |Y|
 
