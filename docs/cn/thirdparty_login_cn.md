@@ -31,7 +31,7 @@
 
 ### 1.拥有自己的OntId
 
-首先网站服务方需要拥有自己的OntId，有了身份OntId相关信息后便可使用各种SDK进行签名验签等操作。OntId签名验签等身份相关操作可参考附录[示例代码](dsd)或[SDKs开发文档](https://ontio.github.io/documentation/ontology_overview_sdks_en.html)
+首先网站服务方需要拥有自己的OntId，有了身份OntId相关信息后便可使用各种SDK进行签名验签等操作。OntId签名验签等身份相关操作可参考附录[示例代码](https://github.com/ontio/ontology-DID/blob/master/docs/cn/thirdparty_login_cn.md#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81)或[SDKs开发文档](https://ontio.github.io/documentation/ontology_overview_sdks_en.html)
 
 推荐使用ONTO客户端[https://onto.app](https://onto.app)创建主网OntId。记住密码并导出keystore，keystore已包含salt，加密后的私钥，ontId等信息。
 ONTO导出keystore示例：
