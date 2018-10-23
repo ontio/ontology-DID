@@ -87,7 +87,7 @@ ONTPass根据本体生态中各种认证服务提供商TrustAnchor可签发的�
 	本体测试网OntPass平台域名：https://app.ont.io/
 
 ```json
-url：域名+/S1/api/v1/ontpass/thirdparty/loginservice?version=0.8
+url：域名+/S1/api/v1/ontpass/thirdparty?version=0.8
 method：POST
 requestExample：
 {
@@ -98,9 +98,9 @@ requestExample：
 	"DesEN":"COO Blockchain",
 	"Logo":"https://coo.chain/logo/coo.jpg",
 	"Type":"Blockchain",
-	"CallBackAddr1":"https://coo.chain/user/login/token",
-	"CallBackAddr2":"https://coo.chain/user/login/authentication",
-	"ReqContext":"authtemplate_kyc01",
+	"LoginCallBackAddr1":"https://coo.chain/user/login/token",
+	"LoginCallBackAddr2":"https://coo.chain/user/login/authentication",
+	"LoginReqContext":"authtemplate_kyc01",
 	"Signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0="
 }
 
@@ -127,10 +127,10 @@ successResponse：
 |    DesEN|   String|  网站服务方描述，英文  |Y|
 |    DesCN|   String|  网站服务方描述，中文  |Y|
 |    Logo|   String|  网站服务方Logo的url链接  |Y|
-|    CallBackAddr1|   String|  回调地址。满足https+域名，接收post回调请求获取二维码uid及用户ontid |Y|
-|    CallBackAddr2|   String|  回调地址。满足https+域名，接收post回调请求获取用户认证信息 |Y|
+|    LoginCallBackAddr1|   String|  回调地址。满足https+域名，接收post回调请求获取二维码uid及用户ontid |Y|
+|    LoginCallBackAddr2|   String|  回调地址。满足https+域名，接收post回调请求获取用户认证信息 |Y|
 |    Type|   String|  网站服务方业务类型描述 |N|
-|    ReqContext|   String|  网站服务方选择的标准认证模板标识。该认证模板由OntPass提供。 |N|
+|    LoginReqContext|   String|  网站服务方选择的标准认证模板标识。该认证模板由OntPass提供。 |N|
 |    Signature|   String|  请求信息的签名。由网站服务方使用自己OntId的私钥按照标准的ECDSA算法签名。 |Y|
 
 
