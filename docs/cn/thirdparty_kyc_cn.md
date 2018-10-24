@@ -53,8 +53,8 @@ requestExample：
 	"DesEN":"COO Blockchain",
 	"Logo":"https://coo.chain/logo/coo.jpg",
 	"Type":"Blockchain",
-	"CallBackAddr":"https://coo.chain/user/authentication",
-	"ReqContext":"authtemplate_kyc01",
+	"KycCallBackAddr":"https://coo.chain/user/authentication",
+	"KycReqContext":"authtemplate_kyc01",
 	"Signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0="
 }
 
@@ -81,9 +81,9 @@ successResponse：
 |    DesEN|   String|  场景方描述，英文  |
 |    DesCN|   String|  场景方描述，中文  |
 |    Logo|   String|  场景方Logo的url链接  |
-|    CallBackAddr|   String|  回调地址。满足https+域名，接收post回调请求 |
+|    KycCallBackAddr|   String|  回调地址。满足https+域名，接收post回调请求 |
+|    KycReqContext|   String|  场景方选择的标准认证模板标识。该认证模板由ONTPass提供。 |
 |    Type|   String|  场景方所属类型|
-|    ReqContext|   String|  场景方选择的标准认证模板标识。该认证模板由ONTPass提供。 |
 |    Signature|   String|  请求信息的签名。由场景方使用自己OntId的私钥按照标准的ECDSA算法签名。 |
 
 
@@ -108,6 +108,7 @@ successResponse：
 {
 	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Exp":1534838857,
+	"Ope":"kyc",	
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
 }
 ```
@@ -116,6 +117,7 @@ successResponse：
 {
 	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Exp":1534838857,
+	"Ope":"kyc",
 	"ReqContext":"authtemplate_kyc02",
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
 }
@@ -127,6 +129,7 @@ successResponse：
 |    OntId|   String|  场景方的OntId  |
 |    Exp|   int|  过期时间，unix时间戳  |
 |    ReqContext|   String|  认证模板。扩展项，可没有该key |
+|    Ope|   String|  固定值kyc |
 |    Sig|   String|  场景方使用OntId私钥对二维码信息的签名 |
 
 
