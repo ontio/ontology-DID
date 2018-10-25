@@ -100,7 +100,7 @@ requestExample：
 	"Type":"Blockchain",
 	"LoginCallBackAddr1":"https://coo.chain/user/login/token",
 	"LoginCallBackAddr2":"https://coo.chain/user/login/authentication",
-	"LoginReqContext":"authtemplate_kyc01",
+	"LoginAuthTemplate":"authtemplate_kyc01",
 	"Signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0="
 }
 
@@ -130,7 +130,7 @@ successResponse：
 |    LoginCallBackAddr1|   String|  回调地址。满足https+域名，接收post回调请求获取二维码uid及用户ontid |Y|
 |    LoginCallBackAddr2|   String|  回调地址。满足https+域名，接收post回调请求获取用户认证信息 |Y|
 |    Type|   String|  网站服务方业务类型描述 |N|
-|    LoginReqContext|   String|  网站服务方选择的标准认证模板标识。该认证模板由OntPass提供。 |N|
+|    LoginAuthTemplate|   String|  网站服务方选择的标准认证模板标识。该认证模板由OntPass提供。 |N|
 |    Signature|   String|  请求信息的签名。由网站服务方使用自己OntId的私钥按照标准的ECDSA算法签名。 |Y|
 
 
