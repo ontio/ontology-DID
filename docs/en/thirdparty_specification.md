@@ -25,7 +25,77 @@ The Ontology collaborative trust system is able to provide authenticity verifica
 
 ## Access Procedures
 
-### 1. Registeration on OntPass Platform
+### 1.Have your own OntId
+
+First, KYC requestor needs to have its own OntId.Having the OntId related information, you can use various SDKs for signature,verification signature and other operations.For identity-related operations, refer to the appendix [sample code](https://github.com/ontio/ontology-DID/blob/master/docs/cn/thirdparty_kyc_cn.md#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81) or [SDKs development documentation](https://ontio.github.io/documentation/ontology_overview_sdks_en.html).
+
+The TestNet OntId can be registered by the ONTPass platform for free, and the operation can be completed by directly calling the following API.
+
+```
+url：https://app.ont.io/S1/api/v1/ontpass/thirdparty/ontid
+method：GET
+successResponse：
+{
+  "Action": "RegisterTestNetOntId",
+  "Error": 0,
+  "Desc": "SUCCESS",
+  "Version": "1.0",
+  "Result": {
+    "Salt": "FODMSCkT9YDxyVQXQ61+Nw==",
+    "Scrypt-N": 12386,
+    "EncryptedPriKey": "a7BCMN9gupQfzfpeJgXJRK3OsO2LITu6xpet5tPyR65LvG4/n1bF+3m2Yy4efGGx",
+    "OntId": "did:ont:AVdPy51OzyK5MtYyxW4ggFmPCrWQU3VJF2",
+    "Password": "123456"
+  }
+}
+
+```
+
+| Param     |     Type |   Description   |
+| :--------------: | :--------:| :------: |
+|    Salt|   String | salt，security param |
+|    Scrypt-N|   int | This parameter is related to the import of OntId operation. |
+|    EncryptedPriKey|   String | encrypted private key |
+|    OntId|   String | OntId |
+|    Password|   String | password of OntId |
+
+
+The MainNet OntId is recommended to be created using the [ONTO App] https://onto.app. Remember the password and export the keystore. The keystore already contains information such as salt, encrypted private key, OntId and so on.
+
+
+```
+{
+  "scrypt" : {
+    "r" : 8,
+    "p" : 8,
+    "n" : 4096,
+    "dkLen" : 64
+  },
+  "address" : "AYMKcyx1EuY6o7qqMX17DCPbwmsFpQSoAx",
+  "parameters" : {
+    "curve" : "secp256r1"
+  },
+  "claimArray" : [
+  	....
+	....
+  ],
+  "label" : "xxx",
+  "type" : "I",
+  "algorithm" : "ECDSA",
+  "key" : "rnE6WclHSS9tpHGp01KQOM10NzeZt4lvlOOOQC8ht9N0x7d1jkjccP9Ay3qQmStT",
+  "salt" : "UyDgxiZs1StSBkqTmynRJg=="
+}
+```
+
+| Param     |     Type |   Description   |
+| :--------------: | :--------:| :------: |
+|    scrypt.n|   int |This parameter is related to the import of OntId operation. |
+|    key|   String | encrypted private key |
+|    salt|   String | salt，security param |
+|    address|   String | suffix of OntId. Complete OntId: did:ont:address |
+
+
+### 2. Registeration on OntPass Platform
 
 To receive the authenticity service in the Ontology trust system, a KYC requestor needs to register on the OntPass platform.
 
@@ -35,7 +105,7 @@ OntPass provides different verification templates for different verifiable claim
 #### API /API for Registration of a KYC Requestor
 
 ```json
-url：/api/v1/ontpass/thirdparty?version=0.8
+url：https://app.ont.io/S1/api/v1/ontpass/thirdparty?version=0.8
 method：POST
 requestExample：
 {
@@ -46,8 +116,8 @@ requestExample：
 	"DesEN":"COO Blockchain",
 	"Logo":"https://coo.chain/logo/coo.jpg",
 	"Type":"Blockchain",
-	"CallBackAddr":"https://coo.chain/user/authentication",
-	"ReqContext":"authtemplate_kyc01",
+	"KycCallBackAddr":"https://coo.chain/user/authentication",
+	"KycAuthTemplate":"authtemplate_kyc01",
 	"Signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0="
 }
 
@@ -74,9 +144,9 @@ successResponse：
 |    DesEN|   String|  Description of the KYC requestor in English  |
 |    DesCN|   String|  Description of the KYC requestor in Chinese  |
 |    Logo|   String|  URL of the KYC requestor logo  |
-|    CallBackAddr|   String|  Address of recall function in http format |
+|    KycCallBackAddr|   String|  Address of recall function in http format |
 |    Type|   String|  Category of the KYC requestor|
-|    ReqContext|   String|  Logo of the verifiable claim template. Template will be provided by OntPass。 |
+|    KycAuthTemplate|   String|  Logo of the verifiable claim template. Template will be provided by OntPass。 |
 |    Signature|   String|  Signature of the requsted information。KYC requestor will signify by using ECDSA algorithm with his private key |
 
 
@@ -89,7 +159,7 @@ successResponse：
 > Note: For security purposes, KYC requestor must use http+ address as his recall inteface. In the meantime, KYC requestor needs to ensure the recall interface accepts post request from OntPass.
 
 
-### 2. Generate QR Code
+### 3. Generate QR Code
 
 KYC Requestor will need to follow the OntPass standards in order to generate the official QR code. The OntID of the KYC requestor, language, expire date, verifiable claim template and signature needs to be embedded into the QR code. There is a 7% faulty tolerance when generating the QR code
 
@@ -101,6 +171,7 @@ Example for generating a QR code:
 {
 	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Exp":1534838857,
+	"Ope":"kyc",	
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
 }
 ```
@@ -109,7 +180,8 @@ or
 {
 	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Exp":1534838857,
-	"ReqContext":"authtemplate_kyc02",
+	"Ope":"kyc",
+	"AuthTmpl":"authtemplate_kyc02",
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
 }
 ```
@@ -119,7 +191,8 @@ or
 | :--------------: | :--------:| :------: |
 |    OntId|   String|  KYC Requestor OntId  |
 |    Exp|   int|  Expired date，unix timestamp  |
-|    ReqContext|   String|  Optional. verifiable claim template。  |
+|    Ope|   String | kyc  |
+|    AuthTmpl|   String|  Optional. verifiable claim template。  |
 |    Sig|   String|   Signature of the KYC requestor by using the private key |
 
 
@@ -127,7 +200,7 @@ or
 > Note: The OntID in the QR code must match the OntID registered in the OntPass platform. The signature must use standard ECDSA algorithm
 
 
-### 3. Receive verifiable from user
+### 4. Receive verifiable from user
 
 User will delegate the verifying rights by scanning the QR code of the KYC requestor. If the delegation passes on ONTO App, the encrypted verifiable claim will be sent to OntPass, and then redirected to KYC requestor through the recall interface.
 
@@ -144,6 +217,7 @@ requestExample：
 	"AuthId":"123123",
 	"OntPassOntId":"did:ont:AMBaMGCzYfrV3NyroxwtTMfzubpFMCv55c",
 	"UserOntId":"did:ont:AXZUn3r5yUk8o87wVm3tBZ31mp8FTaeqeZ",
+	"ThirdPartyOntId":"did:ont:AVPL4fLx6vb5sPopqpw72mnAoKoogqWJQ1",
 	"EncryClaims": [
 		"eyJraWQiOiJkaWQ6b250OkFScjZBcEsyNEVVN251Zk5ENHMxU1dwd1VMSEJlcnRwSmIja2V5cy0xIiwidHlwIjoiSldULVgiLCJhbGciOiJPTlQtRVMyNTYifQ==.eyJjbG0tcmV2Ijp7InR5cCI6IkF0dGVzdENvbnRyYWN0IiwiYWRkciI6IjM2YmI1YzA..."
 	],
@@ -158,11 +232,12 @@ requestExample：
 |    AuthId|   String|   OntPass platform authorization code  |
 |    OntPassOntId|   String| OntID of the OntPass |
 |    UserOntId|   String|  OntID of the user|
+|    ThirdPartyOntId|   String|  OntID of the Requester|
 |    EncryClaims|   list|  list of verifiable claim after encryption |
 |    Signature|   String|  signature of the requested information from Ontpass |
 
 
-### 4.Verify the Verifiable claim
+### 5.Verify the Verifiable claim
 
 After the KYC requestor receives the encrypted verifiable claim, the requestor is able to decrypt by using his private key of his OntID and verify the completeness ad effective of that verifiable claim on the blockchain. Detailed explation of verifiable claim can be found in the annex **Verifiable Claim Standards**. You can refer to the SDKs provided by Ontology.
 
@@ -347,4 +422,3 @@ Verifiable claim received by KYC requestor will be arranged as the following:
 
 
 For more information, please vist (https://ontio.github.io/documentation/claim_spec_en.html)
-
