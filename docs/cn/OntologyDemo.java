@@ -26,8 +26,10 @@ public class OntologyDemo {
             String ontoSalt = "UyDgCiZsuStSBkjTmynRJg==";
             //ONTO identity OntId
             String ontoOntId = "did:ont:AYMGcyxiEuY6o7qqMX87DCPbwmsFpNSoAx";
+            //Scrypt-N
+            int scryptN = 4096;
             //impoort identity
-            Identity identity = importIdentityFromONTO(ontoEncryptedPriKey , ontoPassword, ontoOntId,ontoSalt);
+            Identity identity = importIdentityFromONTO(scryptN, ontoEncryptedPriKey , ontoPassword, ontoOntId,ontoSalt);
 
             String identityPwd = ontoPassword;
 
@@ -68,12 +70,12 @@ public class OntologyDemo {
      * @return
      * @throws Exception
      */
-    public static Identity  importIdentityFromONTO(String ontoEncryptedPriKey, String password, String ontId,String salt) throws Exception{
+    public static Identity  importIdentityFromONTO(int scryptN, String ontoEncryptedPriKey, String password, String ontId,String salt) throws Exception{
 
         System.out.println("#####################################");
         OntSdk ontSdk = getOntSdk();
 
-        String prikey = com.github.ontio.account.Account.getGcmDecodedPrivateKey(ontoEncryptedPriKey, password,ontId.split(":")[2], Base64.getDecoder().decode(salt),4096, SignatureScheme.SHA256WITHECDSA);
+        String prikey = com.github.ontio.account.Account.getGcmDecodedPrivateKey(ontoEncryptedPriKey, password,ontId.split(":")[2], Base64.getDecoder().decode(salt),scryptN, SignatureScheme.SHA256WITHECDSA);
         Identity identity = ontSdk.getWalletMgr().createIdentityFromPriKey(password, prikey);
 
         ontSdk.getWalletMgr().writeWallet();
