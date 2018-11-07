@@ -45,7 +45,8 @@ successResponse：
     "Scrypt-N": 12386,
     "EncryptedPriKey": "a7BCMN9gupQfzfpeJgXJRK3OsO2LITu6xpet5tPyR65LvG4/n1bF+3m2Yy4efGGx",
     "OntId": "did:ont:AVdPy51OzyK5MtYyxW4ggFmPCrWQU3VJF2",
-    "Password": "123456"
+    "Password": "123456",
+    "PrivateKey":"4e9a642d382caf2563446c3408f2e28ba63130ae6787671a537f595efa291f11"
   }
 }
 
@@ -58,6 +59,7 @@ successResponse：
 |    EncryptedPriKey|   String | encrypted private key |
 |    OntId|   String | OntId |
 |    Password|   String | password of OntId |
+|    PrivateKey|   String | private key of OntId |
 
 
 The MainNet OntId is recommended to be created using the [ONTO App] https://onto.app. Remember the password and export the keystore. The keystore already contains information such as salt, encrypted private key, OntId and so on.
