@@ -5,37 +5,11 @@
 <p align="center" class="version">Version 0.7.0 </p>
 
 
-我们支持使用多种SDK或RPC方式来应用ONT ID ，我们以JS SDK为例，说明如何进行快速开发。本文档中以下的示例代码都以Node环境为例。
+我们支持使用多种SDK或RPC方式来应用ONT ID ，我们以Typescript SDK为例，说明如何进行快速开发。本文档中以下的示例代码都以Node环境为例。
 
 ## 环境准备
 
-### 1.1 浏览器环境
-
-将构建后的单个js文件 **browser.js** 放到你的html文件中，然后就可以直接使用SDK暴露出的全局变量**Ont**。
-
-````
-<html>
-<head>
-    <script src="browser.js"></script>
-</head>
-<body>
-	<script>
-		//开始使用
-		var wallet = Ont.SDK.createWallet('name','password')
-	</script>
-</body>
-````
-
-### 1.2 Node环境
-
-通过npm下载sdk，然后通过模块引入的方式使用SDK。
-
-````
-//安装
-npm install Ont-ts --save
-//使用
-var Ont = require('Ont')
-````
+请参考[Ontology TS SDk的安装指南](https://github.com/ontio/ontology-ts-sdk)，安装好环境。
 
 ## 创建数字身份
 
@@ -43,11 +17,9 @@ var Ont = require('Ont')
 
 ONT ID是一个去中心化的身份标识，能够管理用户的各种数字身份认证。数字身份(Identity)是ONT SDK导出的一个核心类，该类包含代表身份的ONT ID属性。
 
-> 关于数字身份的具体信息请查阅[ONT TS SDk]() 中相关内容。
+> 关于数字身份的具体信息请查阅[Ontology TS SDk](https://github.com/ontio/ontology-ts-sdk) 中相关内容。
 
 可以通过SDK来创建一个身份。创建身份的过程中会基于用户的私钥生成ONT ID。
-
-> 关于ONT ID 的规范参见[ONT ID生成规范](./ONTID_protocol_spec.md/#1.1_ONT_ID生成)
 
 创建身份需要提供的参数如下：
 
@@ -158,7 +130,7 @@ var claim = SDK.signClaim(context, claimData, issuer, subject, privateKey)
 }
 ````
 
-关于声明对象的具体规范，详见[claim的规范]()。
+关于声明对象的具体规范，详见[claim的规范](https://github.com/ontio/ontology-DID/blob/master/docs/cn/claim_spec_cn.md)。
 
 接下来需要发送交易到链上用于存证。上链成功后，会返回该声明上链的完整性证明。该证明的具体格式参见
 
