@@ -4,6 +4,7 @@
 <h1 align="center">ONT ID 应用快速开发指南 </h1>
 <p align="center" class="version">Version 0.7.0 </p>
 
+我们假定您已经清楚ONT ID的概念，并且知道ONT ID能为您做什么。现在，您需要使用ONT ID为认证您的用户或者为你的用户管理数字身份，可以参照这篇文档着手搭建。
 
 我们支持使用多种SDK或RPC方式来应用ONT ID ，我们以Typescript SDK为例，说明如何进行快速开发。本文档中以下的示例代码都以Node环境为例。
 
@@ -17,9 +18,9 @@
 
 ONT ID是一个去中心化的身份标识，能够管理用户的各种数字身份认证。数字身份(Identity)是ONT SDK导出的一个核心类，该类包含代表身份的ONT ID属性。
 
-> 关于数字身份的具体信息请查阅[Ontology TS SDk](https://github.com/ontio/ontology-ts-sdk) 中相关内容。
+> 如需要了解数字身份更详细的信息，请查阅[ONT ID Protocol Specifiction](https://github.com/ontio/ontology-DID/blob/master/docs/cn/ONTID_protocol_spec_cn.md)。
 
-可以通过SDK来创建一个身份。创建身份的过程中会基于用户的私钥生成ONT ID。
+你可以通过SDK来创建一个身份。创建身份的过程中会基于用户的私钥生成ONT ID。
 
 创建身份需要提供的参数如下：
 
@@ -27,19 +28,25 @@ ONT ID是一个去中心化的身份标识，能够管理用户的各种数字�
 
 **password** 用来加密和解密私钥的密码。
 
-**algorithmObj** 用来生成身份的算法对象。该值是可选参数，结构如下：
+**label** 身份的名称
+
+**params** 用来加密私钥的算法参数。可选参数。默认值如下：
 
 ```
 {
-  algorithm: string // 算法名称
-  parameters: {}    // 算法参数
+    cost: 4096,
+    blockSize: 8,
+    parallel: 8,
+    size: 64
 }
 ```
 
 ```
-import {Identity} from 'Ont'
-var identity = new Identity()
-identity.create(privateKey, password)
+import {Identity, Crypto} from 'ontology-ts-sdk';
+//generate a random private key
+const privateKey = Crypto.PrivateKey.random();
+
+var identity = Identity.create(privateKey, password, label)
 console.log(identity.ontid)
 ```
 
@@ -58,32 +65,99 @@ console.log(identity.ontid)
 2.将用户的ONT ID绑定到用户的私钥对应的公钥上。用户之后还可以在ONT ID上添加其它的公钥。
 
 ````
-var param = buildRegisterOntidTx(ontid, privateKey)
+import {OntidContract} from 'ontology-ts-sdk';
+import {TransactionBuilder} from 'ontology-ts-sdk'
+
+//suppose we already got a identity
+const did = identity.ontid;
+//we need the public key, which can be generate from private key
+const pk = privateKey.getPublicKey();
+const gasPrice = '0';
+const gasLimit = '20000;
+const tx = OntidContract.buildRegisterOntidTx(did, pk, gasPrice, gasLimit);
+Transaction.signTransaction(tx, privateKey);
 ````
 
-该方法返回的是交易对象序列化好的参数，接下来是发送该参数。可以通过websocket或者http请求的方式发送。这里我们以websocket为例，这样能够监听链上推送回来的消息，来确认ONT ID是否上链成功。
+发送ONT ID上链的交易需要消耗手续费，我们需要给交易指定一个支付人Payer，并添加Payer的签名。支付人可以是用户本人，也可以是dApp应用为用户支付。
 
 ````
-//构造发送交易的工具类，这里连接的是测试节点。
-var txSender = new TxSender(ONT_NETWORK.TEST)
+import {TransactionBuilder} from 'ontology-ts-sdk'
+//we also need an account to pay for the gas
+//supporse we have an account and the privateKey
+tx.payer = account.address
+//Then sign the transaction with payer's account
+//we already got transaction created before,add the signature.
+TransactionBuilder.addSign(tx, privateKeyOfAccount)
+````
 
-//构造回调函数，处理接收到的消息
-const callback = function(res, socket) {
-    if(res.Action === 'Notify' && res.Result == 0 ) {
-    	//确认上链成功，关闭socket
-        socket.close()
-    }
+现在可以发送交易到链上。我们多种发送交易的方式，如Websocket, Restful和RPC。这里以Restful的方式为例。我们可以指定交易发送到的节点，如果不指定，默认发送到测试网。
+
+````
+import {RestClient, CONST} from 'ontology-ts-sdk'
+
+const rest = new RestClient(CONST.TEST_ONT_URL.REST_URL);
+rest.sendRawTransaction(tx.serialize()).then(res => {
+    console.log(res)
+})
+````
+返回结果如下：
+
+````
+{ Action: 'sendrawtransaction',
+  Desc: 'SUCCESS',
+  Error: 0,
+  Result: 'dfc598649e0f3d9ff94486a80020a2775e1d474b843255f8680a3ac862c58741',
+  Version: '1.0.0' }
+````
+
+如果结果返回状态成功（Error是0），表明ONT ID上链成功。我们可以查询链上ONT ID的相关信息。
+
+当我们定义的回调函数里处理得到上链成功的推送消息时，ONT ID创建过程才真正完成。接下来就可以通过ONT ID就可以使用了。
+
+
+## 3. 查询链上身份DDO
+
+当链上成功注册一个ONT ID，链上将形成一个ONT ID对象，我们称之为DDO。查询DDO，最简单的办法是通过[本体区块链浏览器](https://explorer.ont.io)查询，或者您也可以通过SDK查询。
+
+通过SDK查询的方式如下：
+
+首先构建交易
+````
+import {OntidContract} from 'ontology-ts-sdk';
+//we use identity's ONT ID to create the transaction
+const tx = OntidContract.buildGetDDOTx(identity.ontid)
+````
+
+发送交易 查询交易不需要消耗gas，也就不需要指定payer和payer的签名。发送交易方法的第二个参数表示发送的是否是预执行的交易。预执行的交易只在接收到它的节点上运行，不需要等待共识。一般用来查询数据。
+````
+import {RestClient} from 'ontology-ts-sdk';
+const rest = new RestClient();
+rest.sendRawTransaction(tx, true).then(res => {
+    console.log(res);
 }
-
-//发送交易
-txSender.sendTxWithSocket( param, callback )
 ````
 
-当我们定义的回调函数里处理得到上链成功的推送消息时，ONT ID创建过程才真正完成。接下来就可以通过ONT ID来管理用户的各项可信声明了。
+返回的结果如下：
+````
+{ Action: 'sendrawtransaction',
+      Desc: 'SUCCESS',
+      Error: 0,
+      Result:
+       { State: 1,
+         Gas: 20000,
+         Result: '26010000002103547c5abdbe66677ba7001cefd773f01a19c6360b15ee51c6db43911f046564fc0000' },
+      Version: '1.0.0' }
+````
 
-关于链上推送返回的具体信息，可以参见[ONT ID智能合约的设计与调用相关文档](./ONTID_protocol_spec.md/#g._事件推送)。
+Result 就是序列化后的DDO（ONT ID object） 我们可以通过反序列化得到详细数据。
+````
+const ddo = DDO.deserialize(response.Result.Result);
+console.log(ddo);
+````
 
-## 3. 签发可信声明
+## 4. 为用户制作可信声明
+
+此时您的用户可能需要
 
 用户可能会有多种不同的身份。比如拥有公安部颁发的身份证的用户，都拥有中国公民这种身份，用户可以在生活中的某些场景中，出示自己的身份证，来声明自己的这种身份；身份证就是公安部对我们公民身份的认证。
 
