@@ -36,9 +36,9 @@
 测试网OntId可由ONTPass平台免费代付完成上链注册，直接调用以下API即可完成测试网OntId注册。
 
 ```json
-url：https://app.ont.io/S1/api/v1/ontpass/thirdparty/ontid
-method：GET
-successResponse：
+Host：https://app.ont.io/S1/api/v1/ontpass/thirdparty/ontid
+Method：GET /HTTP/1.1
+SuccessResponse：
 {
   "Action": "RegisterTestNetOntId",
   "Error": 0,
@@ -116,9 +116,10 @@ A: 认证模板用于设定需要哪些用户信息，认证模板包括认证�
 #### 场景方注册API
 
 ```json
-url：https://app.ont.io/S1/api/v1/ontpass/thirdparty?version=0.8
-method：POST
-requestExample：
+Host：https://app.ont.io/S1/api/v1/ontpass/thirdparty?version=0.8
+Method：POST /HTTP/1.1
+Content-Type: application/json
+RequestExample：
 {
 	"OntId":"did:ont:Assxxxxxxxxxxxxx",
 	"NameCN":"COO",
@@ -131,7 +132,7 @@ requestExample：
 	"Signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0="
 }
 
-successResponse：
+SuccessResponse：
 {
 	"Version":"0.8",
 	"Action":"RegisterThirdParty",
@@ -207,12 +208,14 @@ successResponse：
 所以场景方提供的回调地址需要接收以下POST请求。
 
 ```json
-url：第三方回调地址
-method：POST
-requestExample：
+Host：第三方回调地址
+Method：POST /HTTP/1.1
+Content-Type: application/json
+RequestExample：
 {
 	"Version":"0.8",
 	"AuthId":"123123",
+	"Token":"221",
 	"OntPassOntId":"did:ont:AMBaMGCzYfrV3NyroxwtTMfzubpFMCv55c",
 	"UserOntId":"did:ont:AXZUn3r5yUk8o87wVm3tBZ31mp8FTaeqeZ",
 	"ThirdPartyOntId":"did:ont:AVPL4fLx6vb5sPopqpw72mnAoKoogqWJQ1",
@@ -228,6 +231,7 @@ requestExample：
 | :--------------: | :--------:| :------: | :----: |
 |    Version|   String|  版本号。目前是0.8  | Y|
 |    AuthId|   String|  ONTPass平台授权编码  | Y|
+|    Token|   String|  第三方的请求token  | N|
 |    OntPassOntId|   String|  ONTPass平台的OntId  | Y|
 |    UserOntId|   String|  用户OntId  | Y|
 |    EncryClaims|   list|  加密后的用户可信声明列表 | Y|
