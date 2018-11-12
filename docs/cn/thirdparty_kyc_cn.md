@@ -45,22 +45,24 @@ successResponse：
   "Desc": "SUCCESS",
   "Version": "1.0",
   "Result": {
+    "OntId": "did:ont:AVdPy51OzyK5MtYyxW4ggFmPCrWQU3VJF2",
     "Salt": "FODMSCkT9YDxyVQXQ61+Nw==",
     "Scrypt-N": 12386,
     "EncryptedPriKey": "a7BCMN9gupQfzfpeJgXJRK3OsO2LITu6xpet5tPyR65LvG4/n1bF+3m2Yy4efGGx",
-    "OntId": "did:ont:AVdPy51OzyK5MtYyxW4ggFmPCrWQU3VJF2",
-    "Password": "123456"
+    "Password": "123456",
+	"PrivateKey":"5A5610287B5C6281C6030990D"
   }
 }
 ```
 
 | Param     |     Type |   Description   |
 | :--------------: | :--------:| :------: |
+|    OntId|   String | OntId |
 |    Salt|   String | 盐，安全参数 |
 |    Scrypt-N|   int | 加密参数。该参数与后续导入OntId操作相关 |
 |    EncryptedPriKey|   String | 加密后的私钥 |
-|    OntId|   String | OntId |
-|    Password|   String | OntId密码 |
+|    Password|   String | OntId私钥密码 |
+|    PrivateKey|   String | 私钥 |
 
 
 主网OntId，推荐使用ONTO客户端[https://onto.app](https://onto.app)创建。记住密码并导出keystore，keystore已包含salt，加密后的私钥，OntId等信息。
@@ -102,7 +104,7 @@ ONTO导出keystore示例：
 
 ### 2. ONTPass平台注册
 
-场景方首先需要到ONTPass平台进行注册。
+场景方拥有自己的OntId后需要到ONTPass平台注册场景方相关信息。
 
 ONTPass根据本体生态中各种认证服务提供商TrustAnchor可签发的可信声明，提供了不同类型的[标准认证模板](./ONTPass_templete_cn.md)。
 Q：什么是认证模板？
@@ -118,13 +120,12 @@ url：https://app.ont.io/S1/api/v1/ontpass/thirdparty?version=0.8
 method：POST
 requestExample：
 {
-    "OntId":"did:ont:Assxxxxxxxxxxxxx",
+	"OntId":"did:ont:Assxxxxxxxxxxxxx",
 	"NameCN":"COO",
 	"NameEN":"COO",
 	"DesCN":"COO 区块链",
 	"DesEN":"COO Blockchain",
 	"Logo":"https://coo.chain/logo/coo.jpg",
-	"Type":"Blockchain",
 	"KycCallBackAddr":"https://coo.chain/user/authentication",
 	"KycAuthTemplate":"authtemplate_kyc01",
 	"Signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0="
@@ -145,19 +146,17 @@ successResponse：
 |    version|   String | 版本信息。目前是0.8 |
 
 
-| RequestField     |     Type |   Description   |
-| :--------------: | :--------:| :------: |
-|    OntId|   String|  场景方OntId  |
-|    NameEN|   String|  场景方名称，英文  |
-|    NameCN|   String|  场景方名称，中文  |
-|    DesEN|   String|  场景方描述，英文  |
-|    DesCN|   String|  场景方描述，中文  |
-|    Logo|   String|  场景方Logo的url链接  |
-|    KycCallBackAddr|   String|  回调地址。满足https+域名，接收post回调请求 |
-|    KycAuthTemplate|   String|  场景方选择的标准认证模板标识。该认证模板由ONTPass提供。 |
-|    Type|   String|  场景方所属类型|
-|    Signature|   String|  请求信息的签名。由场景方使用自己OntId的私钥按照标准的ECDSA算法签名。 |
-
+| RequestField     |     Type |   Description   | Necessary|
+| :--------------: | :--------:| :------: |:----:|
+|    OntId|   String|  场景方OntId  | Y|
+|    NameEN|   String|  场景方名称，英文  | Y|
+|    NameCN|   String|  场景方名称，中文  |Y|
+|    DesEN|   String|  场景方描述，英文  |Y|
+|    DesCN|   String|  场景方描述，中文  |Y|
+|    Logo|   String|  场景方Logo的url链接。logo要求：115*115像素，PNG格式  | Y|
+|    KycCallBackAddr|   String|  回调地址。满足https+域名，接收post回调请求 | Y|
+|    KycAuthTemplate|   String|  场景方选择的标准认证模板标识。该认证模板由ONTPass提供。 | Y|
+|    Signature|   String|  请求信息的签名。由场景方使用自己OntId的私钥按照标准的ECDSA算法签名。| Y|
 
 
 | ResponseField     |     Type |   Description   |
@@ -170,21 +169,12 @@ successResponse：
 
 ### 3.生成二维码
 
-场景方需要按照ONTPass平台的规范生成标准二维码，供ONTO App扫码并进行授权决策。二维码需要嵌入场景方的OntId、过期时间、认证模板（扩展项，若不填写则默认是场景方注册时登记的认证模板）以其签名。并使用7%低容错率标准生成二维码。
+场景方需要按照ONTPass平台的规范生成标准二维码，供ONTO App扫码并进行授权决策。二维码需要嵌入场景方的OntId、过期时间、认证模板（扩展项，若不填写则默认是场景方注册时登记的认证模板）以其签名。并推荐使用7%低容错率标准生成二维码。
 
 签名用于ONTPass对场景方进行身份验证，二维码验证成功后返回给ONTO App用户场景方在ONTPass平台注册时的相关信息。
 
 标准二维码示例：
 
-```
-{
-	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
-	"Exp":1534838857,
-	"Ope":"kyc",	
-	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
-}
-```
-或
 ```
 {
 	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
@@ -196,14 +186,13 @@ successResponse：
 ```
 
 
-| Field     |     Type |   Description   | 
-| :--------------: | :--------:| :------: |
-|    OntId|   String|  场景方的OntId  |
-|    Exp|   int|  过期时间，unix时间戳  |
-|    AuthTmpl|   String|  认证模板。扩展项，可没有该key |
-|    Ope|   String|  固定值:kyc |
-|    Sig|   String|  场景方使用OntId私钥对二维码信息的签名 |
-
+| Field     |     Type |   Description   | Necessary|
+| :--------------: | :--------:| :------: |:----:|
+|    OntId|   String|  场景方的OntId  | Y|
+|    Exp|   int|  过期时间，unix时间戳  | N|
+|    AuthTmpl|   String|  认证模板 | N|
+|    Ope|   String|  固定值:kyc |Y|
+|    Sig|   String|  场景方使用OntId私钥对二维码信息的签名 | Y|
 
 
 > 注意：二维码里的OntId必须是场景方在ONTPass平台登记的OntId，签名也需要使用该OntId对应的私钥按照标准ECDSA算法，对二维码信息进行签名
@@ -235,14 +224,14 @@ requestExample：
 
 ```
 
-| RequestField     |     Type |   Description   | 
-| :--------------: | :--------:| :------: |
-|    Version|   String|  版本号。目前是0.8  |
-|    AuthId|   String|  ONTPass平台授权编码  |
-|    OntPassOntId|   String|  ONTPass平台的OntId  |
-|    UserOntId|   String|  用户OntId  |
-|    EncryClaims|   list|  加密后的用户可信声明列表 |
-|    Signature|   String|  ONTPass对请求信息的签名 |
+| RequestField     |     Type |   Description   | Necessary|
+| :--------------: | :--------:| :------: | :----: |
+|    Version|   String|  版本号。目前是0.8  | Y|
+|    AuthId|   String|  ONTPass平台授权编码  | Y|
+|    OntPassOntId|   String|  ONTPass平台的OntId  | Y|
+|    UserOntId|   String|  用户OntId  | Y|
+|    EncryClaims|   list|  加密后的用户可信声明列表 | Y|
+|    Signature|   String|  ONTPass对请求信息的签名 | Y|
 
 
 ### 4.可信声明验证
@@ -398,5 +387,4 @@ signature：
 
 
 有关可信声明的详细定义及规范可参考：[可信声明协议规范](https://ontio.github.io/documentation/claim_spec_en.html)
-
 
