@@ -32,9 +32,40 @@
 
 ### 1.拥有自己的OntId
 
-首先网站服务方需要拥有自己的OntId，有了身份OntId相关信息后便可使用各种SDK进行签名验签等操作。OntId签名验签等身份相关操作可参考附录[示例代码](https://github.com/ontio/ontology-DID/blob/master/docs/cn/thirdparty_login_cn.md#%E5%8F%82%E8%80%83%E4%BB%A3%E7%A0%81)或[SDKs开发文档](https://ontio.github.io/documentation/ontology_overview_sdks_en.html)
+测试网ONT ID可由ONTPass平台免费代付完成上链注册，直接调用以下API即可完成测试网ONT ID注册。
 
-推荐使用ONTO客户端[https://onto.app](https://onto.app)创建主网OntId。记住密码并导出keystore，keystore已包含salt，加密后的私钥，ontId等信息。
+```json
+Host：https://app.ont.io/S1/api/v1/ontpass/thirdparty/ontid
+Method：GET /HTTP/1.1
+SuccessResponse：
+{
+  "Action": "RegisterTestNetOntId",
+  "Error": 0,
+  "Desc": "SUCCESS",
+  "Version": "1.0",
+  "Result": {
+    "OntId": "did:ont:AVdPy51OzyK5MtYyxW4ggFmPCrWQU3VJF2",
+    "Salt": "FODMSCkT9YDxyVQXQ61+Nw==",
+    "Scrypt-N": 12386,
+    "EncryptedPriKey": "a7BCMN9gupQfzfpeJgXJRK3OsO2LITu6xpet5tPyR65LvG4/n1bF+3m2Yy4efGGx",
+    "Password": "123456",
+	"PrivateKey":"5A5610287B5C6281C6030990D"
+  }
+}
+```
+
+| Param     |     Type |   Description   |
+| :--------------: | :--------:| :------: |
+|    OntId|   String | ONT ID |
+|    Salt|   String | 盐，安全参数 |
+|    Scrypt-N|   int | 加密参数。该参数与后续导入ONT ID操作相关 |
+|    EncryptedPriKey|   String | 加密后的私钥 |
+|    Password|   String | ONT ID私钥密码 |
+|    PrivateKey|   String | 私钥 |
+
+
+主网ONT ID，推荐使用ONTO客户端[https://onto.app](https://onto.app)创建。记住密码并导出keystore，keystore已包含salt，加密后的私钥，ONT ID等信息。
+
 ONTO导出keystore示例：
 ```
 {
@@ -49,6 +80,8 @@ ONTO导出keystore示例：
     "curve" : "secp256r1"
   },
   "claimArray" : [
+  	....
+	....
   ],
   "label" : "xxx",
   "type" : "I",
@@ -60,16 +93,14 @@ ONTO导出keystore示例：
 
 | Param     |     Type |   Description   |
 | :--------------: | :--------:| :------: |
+|    scrypt.n|   int | 加密参数。该参数与后续导入ONT ID操作相关 |
 |    key|   String | 加密后的私钥 |
 |    salt|   String | 盐，安全参数 |
-|    address|   String | OntId后缀地址。加上did:ont:即完整的OntId |
+|    address|   String | ONT ID后缀地址。加上did:ont: 即完整的ONT ID |
 
+若你已拥有数字资产账户且持有至少0.01个ONG，也可直接使用各种SDK自行自付创建ONT ID，获取ONT ID相关信息。
 
-若服务方已拥有资产账户且有ONG，也可直接使用各种SDK自行自付创建OntId，获取OntId相关信息。
-
-
-
-	测试网OntId可以申请由OntPass平台协助注册
+有了身份ONT ID相关信息后便可进行签名验签操作，可参考[JAVA DEMO](https://github.com/ontio/documentation/blob/master/pro-website-docs/assets/OntIdSignDemo.java)，[TS DEMO](https://github.com/ontio/documentation/blob/master/pro-website-docs/assets/OntIdSignDemo.js)或[SDK开发者文档中心](https://dev-docs.ont.io/#/docs-en/SDKs/00-overview)
 
 
 ### 2. ONTPass平台注册
