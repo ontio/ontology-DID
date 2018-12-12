@@ -42,19 +42,19 @@ A: 认证模板用于设定需要哪些用户信息，认证模板包括认证�
 #### 场景方注册API
 
 ```json
-url：/api/v1/ontpass/thirdparty?version=0.8
+url：/api/v1/ontpass/thirdparty
 method：POST
 requestExample：
 {
-    "OntId":"did:ont:Assxxxxxxxxxxxxx",
-	"NameCN":"COO",
-	"NameEN":"COO",
-	"DesCN":"COO 区块链",
+	"DesCN":"COO Blockchain",
 	"DesEN":"COO Blockchain",
-	"Logo":"https://coo.chain/logo/coo.jpg",
-	"Type":"Blockchain",
 	"KycCallBackAddr":"https://coo.chain/user/authentication",
 	"KycReqContext":"authtemplate_kyc01",
+	"Logo":"https://coo.chain/logo/coo.jpg",
+	"NameCN":"COO",
+	"NameEN":"COO",
+    	"OntId":"did:ont:Assxxxxxxxxxxxxx",
+	"Type":"Blockchain",
 	"Signature":"AXFqy6w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo14lHF0="
 }
 
@@ -68,9 +68,6 @@ successResponse：
 }
 ```
 
-| UrlParam     |     Type |   Description   |
-| :--------------: | :--------:| :------: |
-|    version|   String | 版本信息。目前是0.8 |
 
 
 | RequestField     |     Type |   Description   |
@@ -106,8 +103,8 @@ successResponse：
 
 ```
 {
-	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Exp":1534838857,
+	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Ope":"kyc",	
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
 }
@@ -115,8 +112,8 @@ successResponse：
 或
 ```
 {
-	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Exp":1534838857,
+	"OntId":"did:ont:A17j42nDdZSyUBdYhWoxnnE5nUdLyiPoK3",
 	"Ope":"kyc",
 	"ReqContext":"authtemplate_kyc02",
 	"Sig":"AXFqt7w/xg+IFQBRZvucKXvTuIZaIxOS0pesuBj1IKHvw56DaFwWogIcr1B9zQ13nUM0w5g30KHNNVCTo04lHF0="
