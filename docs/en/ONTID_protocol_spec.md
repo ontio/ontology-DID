@@ -51,7 +51,7 @@ For example,
 ```json
 {
 	"OntId": "did:ont:TVuF6FH1PskzWJAFhWAFg17NSitMDEBNoa",
-	"Owners": [{
+	"PublicKeys": [{
 			"PubKeyId": "did:ont:TVuF6FH1PskzWJAFhWAFg17NSitMDEBNoa#keys-1",
 			"Type": "ECDSA",
 			"Curve": "nistp256",
