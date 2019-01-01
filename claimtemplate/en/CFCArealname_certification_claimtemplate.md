@@ -47,8 +47,7 @@ Claim of personal real-name information issued by CFCA.
 }
 ```
 
-
-Content格式定义JSON文件：
+Content format definition as JSON file:
 ```
 {
     "Type": "claim:cfca_authentication", 
