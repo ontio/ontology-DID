@@ -31,7 +31,7 @@ In the entire trust ecosystem, the following participating roles will be include
 
 “Entity” refers to individuals, legal entities (organizations, enterprises, institutions, etc.), objects (mobile phones, automobiles, IoT devices, etc.), and contents (articles, copyrights, etc.) in the real world, and “identity” refers to the entity's identity within the network. Ontology uses Ontology Identifier (ONT ID) to identify and manage the entities' identities. On Ontology blockchain, one entity can correspond to multiple individual identities, and there is no relation between multiple identities.
 
-[>> Learn more](./docs/en/ONTID_protocol_spec.md)
+[Learn more](./docs/en/ONTID_protocol_spec.md)
 
 ### **Verifiable Claim Protocol**
 
@@ -39,43 +39,33 @@ A statement to confirm a claim made by one entity about another (including thems
 
 
 ![](./images/claim_workflow.png)
-[>> Learn more](./docs/en/claim_spec.md)
+[Learn more](./docs/en/claim_spec.md)
 
 ## Deploy
 
-> **NOTE:** ONT ID identification protocol and the trust framework have been completely implemented on the Ontology blockchain through smart contract. 
-At the same time, **ONT ID is an open protocol, and we also support the use of different underlying Blockchain technologies and different smart contract systems to realize it**. The following are deployed with the Ontology Blockchain and the NeoVM smart contract.
+> **NOTE:** The ONT ID identification protocol and the trust framework have been completely implemented on the Ontology blockchain through the ONT ID smart contract. However, **ONT ID is an open protocol and we support the use of different underlying Blockchain technologies and different smart contract implementations**.
 
-* Step 1 Deploy Blockchain
+1. Deploy a Blockchain
 
-    [>> Ontology Blockchain Installation](https://github.com/ontio/ontology) 
+    The Ontology blockchain Go implementation is available [here](https://github.com/ontio/ontology).
 
-* Step 2 Deploy IDContract 
+2. Deploy the ONT ID Contract 
     
-    [Here](./resources/smart-contract/NeoVM/IdContract.avm) to download .avm file ，and [>> smart contract tutorial](https://github.com/ontio/documentation/tree/master/smart-contract-tutorial)，deploy this .avm to Blockchain.
-
-
+    The `.avm` file of the Id Contract is available [here](./resources/smart-contract/NeoVM/IdContract.avm) for download. The deployment tutorial is available [here](https://github.com/ontio/documentation/tree/master/smart-contract-tutorial).
 
 ## Getting Started
 
-Enter [>>Quick Development Guide ](./docs/en/get_started.md)to Get Started.
+Enter [Quick Development Guide ](./docs/en/get_started.md) to get started.
 
-Of course, you can also refer directly to our various SDKs and RPC interfaces, including the following:
+You can also refer to our various SDKs and RPC interfaces, including the following:
 
-* [>> JAVA SDK](https://github.com/ontio/ontology-java-sdk) 
-
-* [>> TS SDK](https://github.com/ontio/ontology-ts-sdk)  
-
-
+* [Java SDK](https://github.com/ontio/ontology-java-sdk) 
+* [TS SDK](https://github.com/ontio/ontology-ts-sdk)  
 
 ## Trust Anchor
 
-Trust Anchor refers to the partner that provides authentication services on the Ontology ecosystem. It may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. You are welcome if your organization is interested in building a distributed trust network with us.
+Trust Anchor refers to the partner that provides authentication services in the Ontology ecosystem. It may be government agencies, universities, banks, third-party authentication service agencies (such as CA agencies), biometric technology companies, etc. You are welcome to join if your organization is interested in building a distributed trust network with us.
 
-[Here](https://info.ont.io/cooperation/en) to join us. 
+Please go [here](https://info.ont.io/cooperation/en) to learn more. 
 
-If you have been a trust anchor,please go to [>> The Access Standard for Trust Anchor](./docs/en/verification_provider_specification.md) for details.
-
-
-
-
+If you have been a trust anchor, please go to [The Access Standard for Trust Anchor](./docs/en/verification_provider_specification.md) for details.
